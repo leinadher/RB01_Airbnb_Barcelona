@@ -10,6 +10,9 @@ library(plotly)
 library(RColorBrewer)
 library(httr)
 library(jsonlite)
+library(stringr)
+library(corrplot)
+library(reshape2)
 theme_minimal() # So that all plots are aesthetically same
 
 ################################################################################
@@ -62,7 +65,26 @@ demographics_grouped <- demographics %>%
 Barcelona_md <- left_join(Barcelona, demographics_grouped, by = 
                            c("neighbourhood" = "Nom_Barri"))
 
-head(Barcelona_md)
+################################################################################
+
+# Install and load necessary packages
+
+
+# Assuming your data is in a dataframe called 'data'
+# Read the data (if not already loaded)
+# data <- read.xlsx("path_to_your_excel_file.xlsx", sheet = 1)
+
+# Define a function to extract star rating
+extract_star_rating <- function(name) {
+  matches <- str_extract(name, "★([0-9.]+)")
+  as.numeric(gsub("★", "", matches))
+}
+
+# Apply the function to the 'name' column
+Barcelona_md$star_rating <- sapply(Barcelona_md$name, extract_star_rating)
+
+# Display the first five rows of the modified dataframe
+head(Barcelona_md[c("name", "star_rating")], 25)
 
 ################################################################################
 
@@ -82,11 +104,18 @@ ggplot(property_counts,
        y = "Frequency", 
        title = "Frequency of each room type",
        subtitle = "Barcelona") +
-  coord_flip() + # Flip the plot to horizontal bars
+  coord_flip() + # Flip the plot to horizontal bars
   guides(fill = FALSE)  # Remove the legend
 
 ################################################################################
 
 # PLOT2: CORRELATION PLOT
 
+numeric_data <- Barcelona_md[, sapply(Barcelona_md, is.numeric)]
+numeric_data <- numeric_data[, !colnames(numeric_data) %in% c('id',
+                                                              'latitude',
+                                                              'longitude', 
+                                                              'number_of_reviews_ltm')]
 
+cor_matrix <- cor(numeric_data)
+corrplot(cor_matrix)
