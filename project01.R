@@ -1,4 +1,4 @@
-# 30.01.2024
+# 30.01.2024 . cambio
 
 setwd("~/GitHub/RB01_AirBnB_TwoCities")
 
