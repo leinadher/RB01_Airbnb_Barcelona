@@ -137,15 +137,17 @@ ggplot(filtered_data, aes(x = number_of_reviews, y = price)) +
 # SCATTERPLOT: Price per Neighbourhood Group
 
 ggplot(Barcelona, aes(x = neighbourhood_group, y = price)) +
-  geom_violin() +
-  geom_jitter(width = 0.2, alpha = 0.25) +
+  geom_jitter(width = 0.2,
+              alpha = 0.25) +
+  geom_violin(fill = NA) +
   scale_y_log10() +
   labs(title = "Neighbourhood vs Price",
        subtitle = "Barcelona",
        x = "Neighbourhood",
        y = "Price") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, 
+                                   hjust = 1))
 
 
 ################################################################################
