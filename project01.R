@@ -1,4 +1,5 @@
 # 30.01.2024
+# Cambio a las 11:16
 
 setwd("~/GitHub/RB01_AirBnB_TwoCities")
 
@@ -110,7 +111,7 @@ plot(Barcelona$availability_365,
      Barcelona$price,
      col = "darkgrey",
      xlim = c(0, 365),
-     ylim = c(0, 2000),
+     ylim = c(0, 12000),
      pch = 16,
      cex = 0.4,
      main = "Price per availability",
