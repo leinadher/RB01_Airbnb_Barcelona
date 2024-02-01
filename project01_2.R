@@ -1,4 +1,4 @@
-# 31.01.2024
+# 01.02.2024
 
 setwd("~/GitHub/RB01_AirBnB_TwoCities")
 
@@ -13,6 +13,15 @@ library(jsonlite)
 library(stringr)
 library(corrplot)
 library(reshape2)
+library(readxl)
+
+# For maps:
+library(sf)
+library(ggmap)
+library(leaflet)
+library(osmdata)
+library(maptiles)    ## for get_tiles() / used instead of OpenStreetMap
+library(tidyterra)   ## for geom_spatraster_rgb() - Background tiles
 theme_minimal() # So that all plots are aesthetically same
 
 ################################################################################
@@ -67,24 +76,44 @@ Barcelona_md <- left_join(Barcelona, demographics_grouped, by =
 
 ################################################################################
 
-# Install and load necessary packages
+# EXTRACT STAR-RATING FROM NAME, AND ADD AS COLUMN TO DATA FRAME
 
-
-# Assuming your data is in a dataframe called 'data'
-# Read the data (if not already loaded)
-# data <- read.xlsx("path_to_your_excel_file.xlsx", sheet = 1)
-
-# Define a function to extract star rating
 extract_star_rating <- function(name) {
   matches <- str_extract(name, "★([0-9.]+)")
   as.numeric(gsub("★", "", matches))
 }
 
-# Apply the function to the 'name' column
 Barcelona_md$star_rating <- sapply(Barcelona_md$name, extract_star_rating)
 
-# Display the first five rows of the modified dataframe
-head(Barcelona_md[c("name", "star_rating")], 25)
+head(Barcelona_md[c("name", "star_rating")], 5)
+
+################################################################################
+
+# EXTRACT LICENSE STATUS
+# Save to a new column 'LicenseGrouping'
+
+Barcelona_md <- Barcelona_md %>%
+  mutate(LicenseGrouping = case_when(
+    grepl("Exempt", license, ignore.case = TRUE) ~ "Exempt",
+    license != "" & !is.na(license) ~ "License is displayed",
+    TRUE ~ "License is not displayed"
+  ))
+
+print(Barcelona_md)
+
+################################################################################
+
+# GROUP LARGE TENANTS AND SMALL TENANTS
+
+Barcelona_md <- Barcelona_md %>%
+  mutate(TenantSizeGrouping = case_when(
+    calculated_host_listings_count >= 10 ~ "Large tenant",
+    calculated_host_listings_count <= 9 ~ "Small tenant",
+    TRUE ~ NA_character_ # This handles any unexpected cases, such as missing values
+  ))
+
+# View the first few rows of the transformed dataset to verify the changes
+head(Barcelona_md)
 
 ################################################################################
 
@@ -101,8 +130,8 @@ ggplot(property_counts,
            fill = 'red')) +
   geom_bar(stat = "identity") +
   labs(x = "Room Type", 
-       y = "Frequency", 
-       title = "Frequency of each room type",
+       y = "Count", 
+       title = "Count of each room type",
        subtitle = "Barcelona") +
   coord_flip() + # Flip the plot to horizontal bars
   guides(fill = FALSE)  # Remove the legend
@@ -117,5 +146,177 @@ numeric_data <- numeric_data[, !colnames(numeric_data) %in% c('id',
                                                               'longitude', 
                                                               'number_of_reviews_ltm')]
 
-cor_matrix <- cor(numeric_data)
-corrplot(cor_matrix)
+cor_matrix <- cor(numeric_data, use = "pairwise.complete.obs")
+corrplot(cor_matrix, type = "full", tl.col = "black", 
+         title = "Correlation of Numerical Values",
+         subtitle = "Barcelona",
+         tl.srt = 45, # Rotate text labels 45 degrees
+         mar = c(0, 0, 2, 0), # Adjust margins to make room for rotated labels
+         tl.cex = 0.8, # Adjust text label size
+         pch = 15) # Use full squares (ASCII 15)
+
+################################################################################
+
+# PLOT3: LICENSE STATUS
+
+license_count <- Barcelona_md %>%
+  group_by(LicenseGrouping) %>%
+  summarise(quantity = n())
+
+# Create the bar plot
+ggplot(license_count, 
+       aes(x = reorder(LicenseGrouping, quantity), 
+           y = quantity, 
+           fill = 'red')) +
+  geom_bar(stat = "identity") +
+  labs(x = "",
+       y = "Count", 
+       title = "License status",
+       subtitle = "Barcelona") +
+  coord_flip() + # Flip the plot to horizontal bars
+  guides(fill = FALSE)  # Remove the legend
+
+################################################################################
+
+# PLOT 4: GREAT AND SMALL TENANTS
+
+tenant_count <- Barcelona_md %>%
+  group_by(TenantSizeGrouping) %>%
+  summarise(quantity = n())
+
+# Create the bar plot
+ggplot(tenant_count, 
+       aes(x = reorder(TenantSizeGrouping, quantity), 
+           y = quantity, 
+           fill = 'red')) +
+  geom_bar(stat = "identity") +
+  labs(x = "",
+       y = "Count", 
+       title = "Types of Tenant",
+       subtitle = "Barcelona") +
+  coord_flip() + # Flip the plot to horizontal bars
+  guides(fill = FALSE)  # Remove the legend
+
+################################################################################
+
+# PLOT 5: ROOM TYPE PER NEIGHBOURHOOD
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group)) + 
+  geom_bar(aes(fill = room_type), position = "dodge") +
+  facet_wrap(~ room_type, scales = "free_y", nrow = 2) +
+  theme_minimal() +
+  labs(title = "Type of Accommodation per Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood Group",
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme_minimal()
+
+################################################################################
+
+# PLOT6: AVERAGE PRICES PER NEIGHBOURHOOD, MAP
+
+# Import geojson and convert to data frame:
+Barcelona_geo <- st_read("Data/Barcelona/neighbourhoods.geojson")
+Barcelona_geo <- st_make_valid(Barcelona_geo)
+print(Barcelona_geo)
+
+merged_data <- merge(Barcelona_geo, Barcelona_md, by = "neighbourhood", all.x = TRUE)
+
+# Calculate the mean price for each neighborhood
+mean_price_by_neighbourhood <- aggregate(price ~ neighbourhood, merged_data, mean)
+
+merged_data <- merge(merged_data, mean_price_by_neighbourhood, by = "neighbourhood")
+
+ggplot(merged_data) +
+  geom_sf(aes(fill = price.y, label = neighbourhood)) +
+  scale_fill_viridis_c() +
+  labs(title = "Average Price by Neighbourhood")
+
+# Display with background!
+
+################################################################################
+
+# PLOT 7: LISTINGS BY MINIMUM NIGHTS
+
+# Modify the minimum_nights column to create a '35+' category
+Barcelona_md$minimum_nights_grouped <- ifelse(Barcelona_md$minimum_nights > 35, 
+                                              "35+",
+                                              as.character(Barcelona_md$minimum_nights))
+
+# Convert the column to a factor to control the order in the plot
+Barcelona_md$minimum_nights_grouped <- factor(Barcelona_md$minimum_nights_grouped,
+                                              levels = c(as.character(1:35),
+                                                         "35+"))
+
+# Create the histogram
+ggplot(Barcelona_md, aes(x = minimum_nights_grouped)) +
+  geom_bar(fill = "darkgrey") +
+  labs(x = "Minimum Nights",
+       y = "Count",
+       title = "Distribution of Listings by Minimum Nights",
+       subtitle = "Barcelona") +
+  theme(axis.text.x = element_text(angle = 0,
+                                   vjust = 0.5, 
+                                   hjust = 1))
+
+################################################################################
+
+# PLOT 8: LISTINGS BY HOST
+
+listings_per_host <- Barcelona_md %>%
+  group_by(host_id) %>%
+  summarize(count = n()) %>%
+  ungroup()
+
+# Group all counts of 10 or more into '10+'
+listings_per_host$count_grouped <- ifelse(listings_per_host$count > 10,
+                                          "10+",
+                                          as.character(listings_per_host$count))
+
+# Convert the column to a factor to control the order in the plot
+listings_per_host$count_grouped <- factor(listings_per_host$count_grouped,
+                                          levels = c(as.character(1:10), 
+                                                     "10+"))
+
+# Create the histogram
+ggplot(listings_per_host, aes(x = count_grouped)) +
+  geom_bar(fill = "darkgrey") +
+  labs(x = "Listings per Host",
+       y = "Number of Listings",
+       title = "Distribution of Listings per Host",
+       subtitle = "Barcelona") +
+  theme(axis.text.x = element_text()) +
+  theme_minimal()
+
+# 10+ is WRONG!
+
+################################################################################
+
+# PLOT 9: JITTER + VIOLIN PLOT PRICE BY NEIGHBOURHOOD
+
+ggplot(Barcelona, aes(x = neighbourhood_group, y = price)) +
+  geom_jitter(width = 0.2,
+              alpha = 0.25) +
+  geom_violin(fill = NA) +
+  scale_y_log10() +
+  labs(title = "Neighbourhood vs Price",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Price") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45))
+
+################################################################################
+
+# PLOT 10: SCATTERPLOT PRICE BY RATING
+
+ggplot(Barcelona_md, aes(x = star_rating, y = price)) +
+  geom_point(width = 0.2,
+             alpha = 0.25) + # Plot the points
+  geom_smooth(method = "lm", color = "red") + # Add linear model line
+  labs(title = "Scatter Chart of Star Rating vs. Price with Linear Model",
+       subtitle = "Barcelona",
+       x = "Star Rating",
+       y = "Price") +
+  theme_minimal()
