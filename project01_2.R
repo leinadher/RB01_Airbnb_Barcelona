@@ -18,7 +18,7 @@ theme_minimal() # So that all plots are aesthetically same
 ################################################################################
 
 # LOADING CITY AIRBNB DATA
-# Read listings.csv files from folder with city name, and sabe as data frame
+# Read listings.csv files from folder with city name, and save as data frame
 
 # Loading 'listings.csv' files from all city folders:
 file_paths <- list.files(pattern = "listings.csv$",
