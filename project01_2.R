@@ -199,7 +199,7 @@ ggplot(tenant_count,
 
 ################################################################################
 
-# PLOT 5: ROOM TYPE PER NEIGHBOURHOOD
+# PLOT 5: ROOM TYPE BY NEIGHBOURHOOD
 
 ggplot(Barcelona_md, aes(x = neighbourhood_group)) + 
   geom_bar(aes(fill = room_type), position = "dodge") +
@@ -214,7 +214,7 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group)) +
 
 ################################################################################
 
-# PLOT6: AVERAGE PRICES PER NEIGHBOURHOOD, MAP
+# PLOT6: AVERAGE PRICES BY NEIGHBOURHOOD, MAP
 
 # Import geojson and convert to data frame:
 Barcelona_geo <- st_read("Data/Barcelona/neighbourhoods.geojson")
@@ -320,3 +320,44 @@ ggplot(Barcelona_md, aes(x = star_rating, y = price)) +
        x = "Star Rating",
        y = "Price") +
   theme_minimal()
+
+################################################################################
+
+# PLOT 11: BOXPLOTS BY PRICE
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
+  geom_boxplot(fill = "lightblue") +
+  scale_y_log10() +
+  labs(title = "Price by Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Price") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45))
+
+################################################################################
+
+# PLOT 12: BOXPLOTS BY MINIMUM NIGHTS
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = minimum_nights)) +
+  geom_boxplot(fill = "lightgreen") +
+  scale_y_log10() + # Otherwise boxplot conveys no information
+  labs(title = "Minimum Nights by Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Minimum Number of Nights") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45))
+
+################################################################################
+
+# PLOT 13: BOXPLOTS BY NUMBER OF REVIEWS
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = number_of_reviews)) +
+  geom_boxplot(fill = "lightsalmon") +
+  labs(title = "Number of Reviews by Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Number of Reviews") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45))
