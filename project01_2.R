@@ -283,7 +283,7 @@ listings_per_host$count_grouped <- factor(listings_per_host$count_grouped,
 ggplot(listings_per_host, aes(x = count_grouped)) +
   geom_bar(fill = "darkgrey") +
   labs(x = "Listings per Host",
-       y = "Number of Listings",
+       y = "Number of Hosts",
        title = "Distribution of Listings per Host",
        subtitle = "Barcelona") +
   theme(axis.text.x = element_text()) +
