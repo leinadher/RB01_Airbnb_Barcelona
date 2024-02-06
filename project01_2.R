@@ -1,6 +1,6 @@
 # 01.02.2024
 
-setwd("~/GitHub/RB01_AirBnB_TwoCities")
+setwd("C:/Users/leina/Downloads/RB01_AirBnB_TwoCities-main")
 
 library(ggplot2)
 library(ggthemes)
@@ -199,7 +199,7 @@ ggplot(tenant_count,
 
 ################################################################################
 
-# PLOT 5: ROOM TYPE PER NEIGHBOURHOOD
+# PLOT 5: ROOM TYPE BY NEIGHBOURHOOD
 
 ggplot(Barcelona_md, aes(x = neighbourhood_group)) + 
   geom_bar(aes(fill = room_type), position = "dodge") +
@@ -214,7 +214,7 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group)) +
 
 ################################################################################
 
-# PLOT6: AVERAGE PRICES PER NEIGHBOURHOOD, MAP
+# PLOT6: AVERAGE PRICES BY NEIGHBOURHOOD, MAP
 
 # Import geojson and convert to data frame:
 Barcelona_geo <- st_read("Data/Barcelona/neighbourhoods.geojson")
@@ -320,3 +320,76 @@ ggplot(Barcelona_md, aes(x = star_rating, y = price)) +
        x = "Star Rating",
        y = "Price") +
   theme_minimal()
+
+################################################################################
+
+# PLOT 11: BOXPLOTS BY PRICE
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
+  geom_boxplot(fill = "lightblue") +
+  scale_y_log10() +
+  labs(title = "Price by Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Price") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45))
+
+################################################################################
+
+# PLOT 12: BOXPLOTS BY MINIMUM NIGHTS
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = minimum_nights)) +
+  geom_boxplot(fill = "lightgreen") +
+  scale_y_log10() + # Otherwise boxplot conveys no information
+  labs(title = "Minimum Nights by Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Minimum Number of Nights") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45))
+
+################################################################################
+
+# PLOT 13: BOXPLOTS BY NUMBER OF REVIEWS
+
+# Hay que ajustar el yscale, o eliminar los outliers. Si no, el plot es plano!
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = number_of_reviews)) +
+  geom_boxplot(fill = "lightsalmon") +
+  coord_cartesian(ylim = c(0, 200)) + 
+  labs(title = "Number of Reviews by Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Number of Reviews") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45))
+
+################################################################################
+
+# PLOT 14: TOP 5 HOSTS BY NUMBER OF LISTINGS
+
+top_hosts <- Barcelona_md %>%
+  distinct(host_name, .keep_all = TRUE) %>%
+  arrange(desc(calculated_host_listings_count)) %>%
+  slice_head(n = 5)
+
+# Create the ggplot2 horizontal barplot
+ggplot(top_hosts, aes(x = reorder(host_name, calculated_host_listings_count),
+                      y = calculated_host_listings_count)) +
+  geom_bar(stat = "identity",
+           fill = "skyblue", alpha = 0.8) +
+  geom_text(aes(label = calculated_host_listings_count), 
+            hjust = 2, 
+            color = "black",
+            size = 3) +
+  labs(title = "Top 5 Hosts by Number of Listings",
+       subtitle = "Barcelona",
+       x = "",
+       y = "Listing Count") +
+  coord_flip() + # Flip the plot to horizontal bars
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 0, hjust = 1),
+        panel.grid.major.x = element_line(color = "gray"),
+        panel.grid.minor.x = element_line(color = "gray")
+        )
