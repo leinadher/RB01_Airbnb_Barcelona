@@ -1,6 +1,6 @@
 # 01.02.2024
 
-setwd("C:/Users/leina/Downloads/RB01_AirBnB_TwoCities-main")
+setwd("~/GitHub/RB01_AirBnB_TwoCities")
 
 library(ggplot2)
 library(ggthemes)
