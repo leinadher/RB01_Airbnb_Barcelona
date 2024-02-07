@@ -1,10 +1,11 @@
 30.01.2024
 
-READ ME
+#### Inside AirBnB Data Study Case: Barcelona
+## General notes: on R file
+- The main project is 'project01.R'.
 
-El proyecto principal es 'project01.R'.
-Las data sets están guardadas en la carpeta 'Data'.
-El archivo de R automáticamente crea data frames asociados a variables a partir del contenido de la carpeta Data, siempre que éstas tengan un archivo 'listings.csv'.
-El directorio de trabajo (wd) de R está configurado para ser el directorio del propio archivo, y buscará los data sets ahí mismo.
-Para actualizar cambios, hay que hacerlos desde la aplicación de escritorio de GitHub.
-Todos los cambios y novedades quedan registrados y se pueden revertir.
+- The data sets are stored in the 'Data' folder.
+
+- The R file automatically creates data frames associated to variables from the contents of the Data folder, as long as they have a 'listings.csv' file.
+
+- The R working directory (wd) is configured to be the directory of the file itself, and will look for the data sets there.
