@@ -1,7 +1,8 @@
 30.01.2024
 
 #### Inside AirBnB Data Study Case: Barcelona
-## General notes: on R file
+
+## General notes
 - The main project is 'project01.R'.
 
 - The data sets are stored in the 'Data' folder.
