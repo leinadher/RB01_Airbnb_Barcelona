@@ -2,10 +2,8 @@
 
 setwd("~/GitHub/RB01_AirBnB_TwoCities")
 
-library(ggplot2)
+library(tidyverse)
 library(ggthemes)
-library(tidyr)
-library(dplyr)
 library(plotly)
 library(RColorBrewer)
 library(httr)
@@ -22,7 +20,6 @@ library(leaflet)
 library(osmdata)
 library(maptiles)    ## for get_tiles() / used instead of OpenStreetMap
 library(tidyterra)   ## for geom_spatraster_rgb() - Background tiles
-theme_minimal() # So that all plots are aesthetically same
 
 ################################################################################
 

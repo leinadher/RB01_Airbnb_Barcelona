@@ -1,0 +1,269 @@
+---
+title: "Barcelona Airbnb Insights"
+author: "Daniel Herrera & Rodrigo González"
+date: "2024-02-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## 1. Presentation of the case
+### 1.1. Airbnb
+
+Airbnb, founded in 2008, has grown from a simple idea of renting out air mattresses in a San Francisco apartment to a global phenomenon in the hospitality industry. It has significantly altered the way people travel by offering unique accommodations from local hosts in over 100,000 cities worldwide. Its platform caters to a diverse range of preferences, from single rooms to entire homes, providing more personalized and often more cost-effective lodging options than traditional hotels. This peer-to-peer model has not only democratized travel accommodations but also enabled millions of hosts to generate additional income. As of 2022, Airbnb had hosted over 800 million guest arrivals, showcasing its vast growth and popularity among travelers seeking authentic experiences. This growth trajectory highlights Airbnb's impact on the travel and tourism sector, prompting a reevaluation of traditional hospitality models and regulatory frameworks globally.
+
+### 1.2. Airbnb controversies
+
+Airbnb's rise has sparked controversies, especially around its impact on local housing markets, community dynamics, and regulatory compliance. The platform has been criticized for contributing to housing shortages by converting long-term rental properties into short-term tourist accommodations, leading to increased rent and property prices. In cities like Barcelona, this has exacerbated existing tensions between residents and tourists, contributing to over-tourism and altering neighborhood characters. Additionally, Airbnb has faced legal challenges regarding compliance with local housing laws and regulations, with accusations of facilitating illegal rentals. These issues have prompted cities worldwide to implement stricter regulations on short-term rentals, balancing the need for tourism revenue with protecting residents' interests and preserving housing affordability.
+
+Recently, Airbnb has seen a noticeable increase in rental prices, attributed to a combination of factors including heightened demand, limited supply, and the gradual recovery of the travel industry post-pandemic. This surge reflects a broader trend in the accommodation sector where prices are climbing as travelers return in large numbers, seeking unique and safe lodging options. The rise in prices has sparked discussions on affordability and access, urging both Airbnb and hosts to balance profitability with providing value to guests.
+
+### 1.3. Airbnb in Barcelona
+
+Airbnb's controversies in Barcelona have been a focal point of discussions about the impact of short-term rentals on cities globally. Barcelona, a prime tourist destination, has faced significant challenges due to the proliferation of Airbnb listings, leading to tensions between the platform, the city's residents, and local authorities.
+
+One major controversy revolves around housing affordability and availability. Critics argue that Airbnb contributes to rising rents and the displacement of long-term residents in favor of short-term tourists. The city has seen protests from local groups and activists who claim that neighborhoods have lost their identity and cohesion due to the influx of tourists staying in Airbnb properties. These concerns have been echoed by housing advocacy groups like the Platform for People Affected by Mortgages (PAH), which has been vocal about the negative impacts of short-term rentals on the local housing market.
+
+The Barcelona City Council, led by Mayor Ada Colau, has taken a firm stance against illegal tourist rentals. Since coming to office in 2015, Colau has introduced strict regulations aimed at curbing the growth of short-term rental platforms like Airbnb. In 2016, the city imposed a moratorium on new tourist licenses and fined Airbnb €600,000 for listing unlicensed properties, highlighting the city's commitment to enforcing its regulations.
+
+Further actions were taken in subsequent years, including the introduction of the PEUAT (Special Urban Plan for Tourist Accommodation) in 2017, which aimed to limit the expansion of tourist accommodations and ensure a balance between tourism and local residents' needs. Despite these measures, conflicts persist, with Airbnb arguing that the city's approach is overly restrictive and harms local hosts who rely on income from short-term rentals.
+
+### 1.4. Data sources.
+
+To carry out this project proposal, two different data sources have been created. The inside Airbnb project and its open data source and the Open Data portal of Barcelona City Council.
+
+Although Airbnb is a company in which data shines due to its importance, being a private listed company, this data is not published openly and must be collected in another way. For this report we have decided to rely on strong, reliable projects that have already demonstrated their relevance in the scene of the regulation of this reservation platform and data from the municipality itself.
+
+#### 1.4.1. Inside Airbnb
+
+The [Inside Airbnb](http://insideairbnb.com/) project is a comprehensive, independent online platform that provides data and analysis on the operations of Airbnb in cities around the world. It was started by activist and data scientist Murray Cox in 2016 as a response to the lack of transparency regarding how Airbnb's business model impacts local housing markets, neighborhoods, and communities. The project aggregates publicly available information on Airbnb listings and reviews to present a more detailed picture of the platform's presence in various cities.
+
+Inside Airbnb has become a crucial resource for researchers, policymakers, journalists, and community groups concerned about the rapid growth of short-term rentals and their effect on cities. By offering detailed data on the number of listings, types of properties, location, pricing, and host information, the project sheds light on how Airbnb contributes to issues like housing affordability, gentrification, and regulatory compliance.
+
+One of the most significant repercussions of the Inside Airbnb project has been its influence on public policy and regulation. Cities like New York, San Francisco, and Barcelona have used data from Inside Airbnb to understand the scale and impact of short-term rentals, leading to the development and enforcement of more stringent short-term rental regulations. For instance, New York City has implemented rules requiring hosts to register with the city, a move aimed at cracking down on illegal listings—a policy informed by insights gained from Inside Airbnb's data.
+
+Inside Airbnb's work has not been without criticism, particularly from Airbnb and hosts who argue that the platform's data might be misinterpreted or used to unjustifiably restrict short-term rentals. Nonetheless, the project's impact in highlighting the need for balance between tourism benefits and community well-being remains undeniable.
+
+In our case we have used the data set of the city of Barcelona through two files, one being the facelifts and the other being the GEOJson of the locations. The quality of the data is indisputable and has been recognized by various actors. Likewise, the update is continuous and we work with data from less than two months ago, these being from mid-December.
+
+We thank Inside Airbnb for its collaboration with consumers and the governments in making this data public, easily reachable and visible.
+
+#### 1.4.2. Open data BCN
+
+The portal https://opendata-ajuntament.barcelona.cat/ is an initiative by the Barcelona City Council aimed at promoting transparency, citizen participation, and innovation through open access to public data. This digital platform offers a wide array of datasets on various city aspects such as transportation, environment, demographics, and economy, enabling developers, researchers, and the general public to analyze, create, and share applications that enhance the understanding and management of the city. 
+
+In our case we have used the data set of "Population of Barcelona aggregated by sex according to the Municipal Register of Inhabitants on January 1 of each year". Barcelona City Council offers an easy-to-use API from which we have only indexed the fields of our interest.
+
+We thank Barcelona City Council for its collaboration with citizens and general public for publishing this data of general interest.
+
+https://opendata-ajuntament.barcelona.cat/data/en/dataset/pad_mdbas_sexe/resource/d0e4ec78-e274-4300-a3bc-cb85cf79014d
+
+### 1.5. Municipal Consumer Information Office (OMIC)
+
+The Municipal Consumer Information Office (OMIC) in Barcelona plays a crucial role in protecting consumer rights within the city. This institution provides essential services such as advice, mediation, and conflict resolution between consumers and businesses. Established to ensure that consumer rights are respected and promoted, OMIC offers a valuable resource for citizens facing issues with products or services.
+
+OMIC operates in various areas, including handling complaints and claims, promoting responsible consumption practices, and educating about consumer rights. It also offers workshops and informative talks, contributing to raising awareness and educating consumers about their rights and how to effectively exercise them.
+
+Additionally, OMIC monitors commercial practices within the city to ensure compliance with current consumer legislation. This includes inspecting commercial establishments and implementing corrective actions in cases of infringement. Its work is essential in maintaining a fair balance between consumer interests and those of businesses, promoting a transparent and fair market.
+
+We consider that OMIC is the perfect client for a report that reflects the impact that Airbnb is having on the city of Barcelona. Likewise, and after the major controversies over the price increase that Airbnb has had lately, it is interesting to observe the profile of accommodation and large license holders that Barcelona City Council has had under its sights for years. 
+
+This study is the first phase and after adequate negotiation a second could be launched with much more detailed data.
+
+## 2. Data exploration
+
+### 2.1. Data structure
+
+#### 2.1.1 Inside Airbnb: listings.csv
+
+Each entry collected by Inside Airbnb, corresponding to one geographical location or city, is structured unanimously in the following manner:
+
+| Country/City |	File Name |	Description |
+| ---------|----------|----------|
+| Barcelona	| listings.csv.gz |	Detailed Listings data |
+| Barcelona	| calendar.csv.gz |	Detailed Calendar Data |
+| Barcelona	| reviews.csv.gz | Detailed Review Data |
+| Barcelona |	listings.csv |	Summary information and metrics for listings in (good for visualisations). |
+| Barcelona	| reviews.csv |	Summary Review data and Listing ID (to facilitate time based analytics and visualisations linked to a listing). |
+| Barcelona	| neighbourhoods.csv |	Neighbourhood list for geo filter. Sourced from city or open source GIS files. |
+| Barcelona |	neighbourhoods.geojson |	GeoJSON file of neighbourhoods of the city. |
+
+Given this recurring structure and the richness of the data, the initial goal of the project was to compare data from different European cities. This objective is evident in the code implementation for loading data into data frames, designed to be replicable and applicable to any city's data, provided the files are loaded into the working directory and stored in folders named after the respective cities.
+This approach was eventually discarded, as it became clear that focusing on Barcelona as a study case is already in itself an interesting focus.
+
+The data collected from Barcelona corresponds to the 13 of December, 2023.
+
+
+```{r, include=FALSE}
+
+setwd("~/GitHub/RB01_AirBnB_TwoCities")
+
+library(ggplot2)
+library(ggthemes)
+library(tidyr)
+library(dplyr)
+library(plotly)
+library(RColorBrewer)
+library(httr)
+library(jsonlite)
+library(stringr)
+library(corrplot)
+library(reshape2)
+library(readxl)
+
+# For maps:
+library(sf)
+library(ggmap)
+library(leaflet)
+library(osmdata)
+library(maptiles)    ## for get_tiles() / used instead of OpenStreetMap
+library(tidyterra)   ## for geom_spatraster_rgb() - Background tiles
+
+################################################################################
+
+# LOADING CITY AIRBNB DATA
+# Read listings.csv files from folder with city name, and save as data frame
+
+# Loading 'listings.csv' files from all city folders:
+file_paths <- list.files(pattern = "listings.csv$",
+                         recursive = TRUE,
+                         full.names = TRUE)
+
+for (file_path in file_paths) {
+  # Extract city name from the file path
+  city_name <- sub(".*/(\\w+)/listings.csv", "\\1", file_path, perl = TRUE)
+  
+  # Read CSV file and assign it to a variable with the city name
+  assign(city_name, read.csv(file_path))
+}
+
+################################################################################
+
+```
+
+The main source of data is the `listings.csv` file, which contains a collection of 18,321 listings with 18 variables:
+
+```{r pressure, echo=TRUE}
+dim(Barcelona)
+str(Barcelona)
+```
+The interpretation of variables is the following:
+
+- `id`: numerical identifier for each listing
+- `name`: name of the listing
+- `host_id`: numerical identifier for the host of the listing
+- `host_name`: name of the host.
+- `neighbourhood`: location information specifying the neighborhood the listing is in
+- `neighbourhood_group`: larger district grouping of neighborhoods (simplified from 71 to 10 districts)
+- `latitude`: latitude coordinates of the listing
+- `longitude`: longitude coordinate of the listing
+- `room_type`: categorical string describing the type of room
+- `price`: daily price of the listing in the local currency (euro)
+- `minimum_nights`: minimum number of nights the listing can be booked
+- `number_of_reviews`: number of reviews at the time the data was captured
+- `last_review`: date of the latest review for the listing
+- `reviews_per_month`: average number of reviews per month for each listing
+- `calculated_host_listings_count`: number of listings by the listing host, calculated directly from the data
+- `availability_365`: availability of the listing in days starting from the data capture day within the next year
+- `number_of_reviews_ltm`: number of reviews in the past 12 months
+- `license`: compliance with City Council; includes the license id number if available, otherwise, pending or empty.
+
+#### 2.1.2. Open data BCN: 2023_pad_mdbas_sexe.csv
+
+As explained previously, the data from has been enriched with official demographic information obtained via API from the Open Data BCN project from the City Council. The topic of choice was “Population of Barcelona aggregated by sex according to the Municipal Register of Inhabitants on January 1 of each year”, from which the population grouped by neighbourhood and district was extracted and merged into our main data frame. The indexed fields are:
+
+
+```{r, include=FALSE}
+
+################################################################################
+
+# API CALL AND DATA MERGE
+# 1. We obtain demographics data (2023_pad_mdbas_sexe.csv) via API
+# 2. We merge listings.csv with demographics data
+
+# API endpoint
+api_url <- "https://opendata-ajuntament.barcelona.cat/data/api/action/datastore_search?resource_id=d0e4ec78-e274-4300-a3bc-cb85cf79014d&limit=3000"
+
+# Sending a GET request to the API and check for success
+response <- GET(api_url) %>% stop_for_status()
+
+# Extracting content from the response
+data <- fromJSON(content(response, "text"), flatten = TRUE)
+
+# The actual data is usually in a specific part of the JSON
+# Adjust the following line according to the structure of the JSON response
+demographics <- data$result$records[c("Nom_Districte", "Nom_Barri", "Valor")]
+
+# Viewing the first few rows of the dataframe
+head(demographics)
+
+# Group by neighborhood, convert 'Valor' to numeric, and sum values
+demographics_grouped <- demographics %>%
+  group_by(Nom_Barri) %>%
+  mutate(Valor = as.numeric(Valor)) %>%  # Convert 'Valor' column to numeric
+  summarise(Total_Population = sum(Valor))
+
+# Merge the datasets
+Barcelona_md <- left_join(Barcelona, demographics_grouped, by = 
+                           c("neighbourhood" = "Nom_Barri"))
+
+```
+
+- `Nom_Districte`: name of the greater district
+- `Nom_Barri`: name of the neighbourhood
+- `Valor`: population count
+
+The merge has been done for `neighbourhood = Nom_Barri`, resulting in a new `demographics` column in our `Barcelona_md` data frame (md for merged).
+
+### 2.2. Further data enrichment
+
+From a first assessment of the data it was observed that the `name` field included additional information which could easily be extracted via pipes and filters and simple regex, such as the star rating, or number of rooms, beds, etc.
+
+
+```{r, include = FALSE}
+
+################################################################################
+
+# EXTRACT STAR-RATING FROM NAME, AND ADD AS COLUMN TO DATA FRAME
+
+extract_star_rating <- function(name) {
+  matches <- str_extract(name, "★([0-9.]+)")
+  as.numeric(gsub("★", "", matches))
+}
+
+Barcelona_md$star_rating <- sapply(Barcelona_md$name, extract_star_rating)
+
+head(Barcelona_md[c("name", "star_rating")], 5)
+
+################################################################################
+
+# EXTRACT LICENSE STATUS
+# Save to a new column 'LicenseGrouping'
+
+Barcelona_md <- Barcelona_md %>%
+  mutate(LicenseGrouping = case_when(
+    grepl("Exempt", license, ignore.case = TRUE) ~ "Exempt",
+    license != "" & !is.na(license) ~ "License is displayed",
+    TRUE ~ "License is not displayed"
+  ))
+
+print(Barcelona_md)
+
+################################################################################
+
+# GROUP LARGE TENANTS AND SMALL TENANTS
+
+Barcelona_md <- Barcelona_md %>%
+  mutate(TenantSizeGrouping = case_when(
+    calculated_host_listings_count >= 10 ~ "Large tenant",
+    calculated_host_listings_count <= 9 ~ "Small tenant",
+    TRUE ~ NA_character_ # This handles any unexpected cases, such as missing values
+  ))
+
+# View the first few rows of the transformed dataset to verify the changes
+head(Barcelona_md)
+
+################################################################################
+
+```
