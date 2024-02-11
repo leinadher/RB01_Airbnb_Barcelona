@@ -539,8 +539,8 @@ could be launched with much more detailed data.</p>
 <h2>2. Data exploration</h2>
 <div id="data-structure" class="section level3">
 <h3>2.1. Data structure</h3>
-<div id="inside-airbnb-listings.csv" class="section level4">
-<h4>2.1.1 Inside Airbnb: listings.csv</h4>
+<div id="inside-airbnb-1" class="section level4">
+<h4>2.1.1 Inside Airbnb</h4>
 <p>Each entry collected by Inside Airbnb, corresponding to one
 geographical location or city, is structured unanimously in the
 following manner:</p>
@@ -664,18 +664,19 @@ starting from the data capture day within the next year</li>
 <li><code>number_of_reviews_ltm</code>: number of reviews in the past 12
 months</li>
 <li><code>license</code>: compliance with City Council; includes the
-license id number if available, otherwise, pending or empty.</li>
+license ID number if available, otherwise, pending or empty.</li>
 </ul>
 </div>
-<div id="open-data-bcn-2023_pad_mdbas_sexe.csv" class="section level4">
-<h4>2.1.2. Open data BCN: 2023_pad_mdbas_sexe.csv</h4>
+<div id="open-data-bcn-1" class="section level4">
+<h4>2.1.2. Open data BCN</h4>
 <p>As explained previously, the data from has been enriched with
 official demographic information obtained via API from the Open Data BCN
 project from the City Council. The topic of choice was “Population of
 Barcelona aggregated by sex according to the Municipal Register of
-Inhabitants on January 1 of each year”, from which the population
-grouped by neighbourhood and district was extracted and merged into our
-main data frame. The indexed fields are:</p>
+Inhabitants on January 1 of each year”, found in the file
+<code>2023_pad_mdbas_sexe.csv</code>, from which the population grouped
+by neighbourhood and district was extracted and merged into our main
+data frame. The indexed fields are:</p>
 <ul>
 <li><code>Nom_Districte</code>: name of the greater district</li>
 <li><code>Nom_Barri</code>: name of the neighbourhood</li>
@@ -688,10 +689,36 @@ resulting in a new <code>demographics</code> column in our
 </div>
 <div id="further-data-enrichment" class="section level3">
 <h3>2.2. Further data enrichment</h3>
-<p>From a first assessment of the data it was observed that the
-<code>name</code> field included additional information which could
-easily be extracted via pipes and filters and simple regex, such as the
-star rating, or number of rooms, beds, etc.</p>
+<p>From a first assessment of the data it was observed that within it,
+additional numerical and categorical variables could be extracted and
+used provide insightful details once plotted.</p>
+<div id="star-rating" class="section level4">
+<h4>2.2.1. Star rating</h4>
+<p>The <code>name</code> field was found to include among other
+information the star rating from 0 to 5 preceded by a star character, a
+pattern easily reproducible with regular expressions. With pipes and
+filters it has been extracted as a numerical value and introduced as an
+additional column. Cases where names do not contain a star rating are
+listed as NA.</p>
+</div>
+<div id="license-status" class="section level4">
+<h4>2.2.2. License status</h4>
+<p>String items found under <code>license</code> were observed to either
+contain a license ID matching the City Council’s figure HUTB (Habitatge
+d’Ús Turístic de Barcelona), the word ‘Exempt’, or be missing at all. A
+new variable <code>LicenseGrouping</code> was establish to contain three
+new categories: <code>Exempt</code>, <code>License is displayed</code>
+and <code>License is not displayed</code>.</p>
+</div>
+<div id="large-and-small-tenants" class="section level4">
+<h4>2.2.3. Large and small tenants</h4>
+<p>By considering the variable
+<code>calculated_host_listings_count</code> and referencing the <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2023-12203">Spanish
+Housing Law of 12/2023</a>, which outlines the differentiation between
+small and large tenants when there are 5 or more properties involved, a
+new categorical variable, <code>TenantSizeGrouping</code>, was
+established to capture this observation.</p>
+</div>
 </div>
 </div>
 

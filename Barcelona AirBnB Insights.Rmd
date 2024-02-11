@@ -75,7 +75,7 @@ This study is the first phase and after adequate negotiation a second could be l
 
 ### 2.1. Data structure
 
-#### 2.1.1 Inside Airbnb: listings.csv
+#### 2.1.1 Inside Airbnb
 
 Each entry collected by Inside Airbnb, corresponding to one geographical location or city, is structured unanimously in the following manner:
 
@@ -167,11 +167,11 @@ The interpretation of variables is the following:
 - `calculated_host_listings_count`: number of listings by the listing host, calculated directly from the data
 - `availability_365`: availability of the listing in days starting from the data capture day within the next year
 - `number_of_reviews_ltm`: number of reviews in the past 12 months
-- `license`: compliance with City Council; includes the license id number if available, otherwise, pending or empty.
+- `license`: compliance with City Council; includes the license ID number if available, otherwise, pending or empty.
 
-#### 2.1.2. Open data BCN: 2023_pad_mdbas_sexe.csv
+#### 2.1.2. Open data BCN
 
-As explained previously, the data from has been enriched with official demographic information obtained via API from the Open Data BCN project from the City Council. The topic of choice was “Population of Barcelona aggregated by sex according to the Municipal Register of Inhabitants on January 1 of each year”, from which the population grouped by neighbourhood and district was extracted and merged into our main data frame. The indexed fields are:
+As explained previously, the data from has been enriched with official demographic information obtained via API from the Open Data BCN project from the City Council. The topic of choice was “Population of Barcelona aggregated by sex according to the Municipal Register of Inhabitants on January 1 of each year”, found in the file `2023_pad_mdbas_sexe.csv`, from which the population grouped by neighbourhood and district was extracted and merged into our main data frame. The indexed fields are:
 
 
 ```{r, include=FALSE}
@@ -218,8 +218,19 @@ The merge has been done for `neighbourhood = Nom_Barri`, resulting in a new `dem
 
 ### 2.2. Further data enrichment
 
-From a first assessment of the data it was observed that the `name` field included additional information which could easily be extracted via pipes and filters and simple regex, such as the star rating, or number of rooms, beds, etc.
+From a first assessment of the data it was observed that within it, additional numerical and categorical variables could be extracted and used provide insightful details once plotted.
 
+#### 2.2.1. Star rating
+
+The `name` field was found to include among other information the star rating from 0 to 5 preceded by a star character, a pattern easily reproducible with regular expressions. With pipes and filters it has been extracted as a numerical value and introduced as an additional column. Cases where names do not contain a star rating are listed as NA.
+
+#### 2.2.2. License status
+
+String items found under `license` were observed to either contain a license ID matching the City Council's figure HUTB (Habitatge d'Ús Turístic de Barcelona), the word 'Exempt', or be missing at all. A new variable `LicenseGrouping` was establish to contain three new categories: `Exempt`, `License is displayed` and `License is not displayed`.
+
+#### 2.2.3. Large and small tenants
+
+By considering the variable `calculated_host_listings_count` and referencing the [Spanish Housing Law of 12/2023](https://www.boe.es/buscar/act.php?id=BOE-A-2023-12203), which outlines the differentiation between small and large tenants when there are 5 or more properties involved, a new categorical variable, `TenantSizeGrouping`, was established to capture this observation.
 
 ```{r, include = FALSE}
 
