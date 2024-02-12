@@ -167,7 +167,7 @@ The interpretation of variables is the following:
 - `calculated_host_listings_count`: number of listings by the listing host, calculated directly from the data
 - `availability_365`: availability of the listing in days starting from the data capture day within the next year
 - `number_of_reviews_ltm`: number of reviews in the past 12 months
-- `license`: compliance with City Council; includes the license ID number if available, otherwise, pending or empty.
+- `license`: compliance with City Council; includes the license ID number if available, otherwise, pending or empty
 
 #### 2.1.2. Open data BCN
 
