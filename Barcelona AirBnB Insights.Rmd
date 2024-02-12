@@ -218,7 +218,7 @@ The merge has been done for `neighbourhood = Nom_Barri`, resulting in a new `dem
 
 ### 2.2. Further data enrichment
 
-From a first assessment of the data it was observed that within it, additional numerical and categorical variables could be extracted and used provide insightful details once plotted.
+From a first assessment of the data it was observed that within it, additional numerical and categorical variables could be extracted and used to provide insightful details once plotted.
 
 #### 2.2.1. Star rating
 
