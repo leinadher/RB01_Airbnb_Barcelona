@@ -226,7 +226,7 @@ The `name` field was found to include among other information the star rating fr
 
 #### 2.2.2. License status
 
-String items found under `license` were observed to either contain a license ID matching the City Council's figure HUTB (Habitatge d'Ús Turístic de Barcelona), the word 'Exempt', or be missing at all. A new variable `LicenseGrouping` was establish to contain three new categories: `Exempt`, `License is displayed` and `License is not displayed`.
+String items found under `license` were observed to either contain a license ID matching the City Council's figure HUTB (Habitatge d'Ús Turístic de Barcelona), the word 'Exempt', or be missing at all. A new variable `LicenseGrouping` was established to contain three new categories: `Exempt`, `License is displayed` and `License is not displayed`.
 
 #### 2.2.3. Large and small tenants
 
