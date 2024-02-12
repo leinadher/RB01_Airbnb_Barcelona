@@ -10,7 +10,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 ## 1. Presentation of the case
 ### 1.1. Airbnb
-![](Assets/Airbnb_Logo_Bélo.svg)
+
+<div style="text-align: center;">
+  ![](Assets/Airbnb_Logo_Bélo.svg){width=50%}
+</div>
+
 Airbnb, founded in 2008, has grown from a simple idea of renting out air mattresses in a San Francisco apartment to a global phenomenon in the hospitality industry. It has significantly altered the way people travel by offering unique accommodations from local hosts in over 100,000 cities worldwide. Its platform caters to a diverse range of preferences, from single rooms to entire homes, providing more personalized and often more cost-effective lodging options than traditional hotels. This peer-to-peer model has not only democratized travel accommodations but also enabled millions of hosts to generate additional income. As of 2022, Airbnb had hosted over 800 million guest arrivals, showcasing its vast growth and popularity among travelers seeking authentic experiences. This growth trajectory highlights Airbnb's impact on the travel and tourism sector, prompting a reevaluation of traditional hospitality models and regulatory frameworks globally.
 
 ### 1.2. Airbnb controversies
