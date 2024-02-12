@@ -156,7 +156,7 @@ The interpretation of variables is the following:
 - `host_name`: name of the host.
 - `neighbourhood`: location information specifying the neighborhood the listing is in
 - `neighbourhood_group`: larger district grouping of neighborhoods (simplified from 71 to 10 districts)
-- `latitude`: latitude coordinates of the listing
+- `latitude`: latitude coordinate of the listing
 - `longitude`: longitude coordinate of the listing
 - `room_type`: categorical string describing the type of room
 - `price`: daily price of the listing in the local currency (euro)
