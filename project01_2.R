@@ -126,6 +126,10 @@ ggplot(property_counts,
            y = quantity, 
            fill = 'red')) +
   geom_bar(stat = "identity") +
+  geom_text(aes(label = quantity), 
+            hjust = 0, 
+            color = "black",
+            size = 3) +
   labs(x = "Room Type", 
        y = "Count", 
        title = "Count of each room type",

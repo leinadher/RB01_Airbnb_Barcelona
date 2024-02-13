@@ -111,7 +111,7 @@ This approach was eventually discarded, as it became clear that focusing on Barc
 The data collected from Barcelona corresponds to the 13 of December, 2023.
 
 
-```{r, include=FALSE}
+```{r load_listings, include=FALSE}
 
 setwd("~/GitHub/RB01_AirBnB_TwoCities")
 
@@ -160,7 +160,7 @@ for (file_path in file_paths) {
 
 The main source of data is the `listings.csv` file, which contains a collection of 18,321 listings with 18 variables:
 
-```{r pressure, echo=TRUE}
+```{r structure, echo=TRUE}
 dim(Barcelona)
 str(Barcelona)
 ```
@@ -190,7 +190,7 @@ The interpretation of variables is the following:
 As explained previously, the data from has been enriched with official demographic information obtained via API from the Open Data BCN project from the City Council. The topic of choice was “Population of Barcelona aggregated by sex according to the Municipal Register of Inhabitants on January 1 of each year”, found in the file `2023_pad_mdbas_sexe.csv`, from which the population grouped by neighbourhood and district was extracted and merged into our main data frame. The indexed fields are:
 
 
-```{r, include=FALSE}
+```{r API, include=FALSE, cache=TRUE}
 
 ################################################################################
 
@@ -248,7 +248,7 @@ String items found under `license` were observed to either contain a license ID 
 
 By considering the variable `calculated_host_listings_count` and referencing the [Spanish Housing Law of 12/2023](https://www.boe.es/buscar/act.php?id=BOE-A-2023-12203), which outlines the differentiation between small and large tenants when there are 5 or more properties involved, a new categorical variable, `TenantSizeGrouping`, was established to capture this observation.
 
-```{r, include = FALSE}
+```{r enrichment, include=FALSE, cache=TRUE}
 
 ################################################################################
 
@@ -294,3 +294,42 @@ head(Barcelona_md)
 ################################################################################
 
 ```
+
+### 2.3. Visualizations
+
+#### 2.3.1. Room type count
+
+```{r plot1, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=4, fig.align='center'}
+
+# PLOT1: FREQUENCY OF EACH ROOM TYPE
+# Summarize the data to count the number of each property type
+property_counts <- Barcelona_md %>%
+  group_by(room_type) %>%
+  summarise(quantity = n())
+
+# Create the bar plot
+ggplot(property_counts, 
+       aes(x = reorder(room_type, quantity), 
+           y = quantity, 
+           fill = 'red')) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = quantity), 
+            hjust = 0, 
+            size = 3) +
+  labs(x = "Room Type", 
+       y = "Count", 
+       title = "Count of each room type",
+       subtitle = "Barcelona") +
+  coord_flip() + # Flip the plot to horizontal bars
+  guides(fill = FALSE) +  # Remove the legend
+  theme_minimal()
+
+```
+
+There are four categories of room types displayed: `Entire home/apt`, `Private room`, `Shared room`, and `Hotel room`.
+
+The `Entire home/apt` category has the highest count, approaching the 10,000 mark, suggesting that entire apartments or homes are the most common type of property listed in Barcelona. The `Private room` category follows, with roughly half as many listings as entire homes, indicating a significant presence in the market but less than the full property rentals.
+
+`Shared rooms` and `Hotel rooms` have significantly fewer listings compared to the other two categories. Shared rooms barely register on the scale, suggesting they are a less popular option among the listings. Hotel rooms have the smallest count, indicating that traditional hotel stays are much less commonly listed on platforms likely compared to short-term rental options.
+
+The visual emphasizes the prevalence of whole property rentals in Barcelona's accommodation offerings, with a substantial secondary market for private rooms. The minimal presence of shared and hotel room listings could reflect market demand or possibly restrictions and regulations within the city.
