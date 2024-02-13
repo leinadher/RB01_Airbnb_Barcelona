@@ -333,3 +333,36 @@ The `Entire home/apt` category has the highest count, approaching the 10,000 mar
 `Shared rooms` and `Hotel rooms` have significantly fewer listings compared to the other two categories. Shared rooms barely register on the scale, suggesting they are a less popular option among the listings. Hotel rooms have the smallest count, indicating that traditional hotel stays are much less commonly listed on platforms likely compared to short-term rental options.
 
 The visual emphasizes the prevalence of whole property rentals in Barcelona's accommodation offerings, with a substantial secondary market for private rooms. The minimal presence of shared and hotel room listings could reflect market demand or possibly restrictions and regulations within the city.
+
+#### 2.3.5. Room type by neighbourhood
+
+```{r plot5, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=10, fig.align='center'}
+
+# PLOT 5: ROOM TYPE BY NEIGHBOURHOOD
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group)) + 
+  geom_bar(aes(fill = room_type), position = "dodge") +
+  facet_wrap(~ room_type, scales = "free_y", nrow = 2) +
+  theme_minimal() +
+  labs(title = "Type of Accommodation per Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood Group",
+       y = "Count") +
+    theme_minimal() +
+  theme(axis.text.x = element_text(size = 8, angle = 45, hjust = 1))
+
+```
+
+This chart provides a detailed breakdown of Airbnb listings in Barcelona by room type and neighbourhood group, with four distinct categories of accommodation: `entire home/apt`, `hotel room`, `private room`, and `shared room`. The y-axis represents the number of listings, which is not consistent across the categories, indicating the use of a free scale within the facets to better display the range of data.
+
+- Focusing first on the `Entire home/apt` category, we observe a pronounced peak in *Eixample*, with over 4,000 listings, which significantly overshadows the counts in other areas, where the second-highest listing *Ciutat Vella* has just above 1,000. This indicates a heavy concentration of full-property rentals in that particular part of the city, which shows that *Eixample* is a popular central area known for tourist attractions.
+
+- The `Hotel room` category exhibits a very different scale, peaking at around 80 listings in the most prominent neighbourhood, being again *Eixample* for this category. This suggests that hotel rooms are a minor part of the Airbnb market in Barcelona or that hotels prefer to use other channels for renting out rooms. There are several neighborhoods that do not even present a single hotel listing.
+
+- For `Private rooms`, the distribution seems more even, yet *Eixample* stands out with nearly 2,000 listings, which is about triple the number of listings in the second next populous neighborhood in this category, *Sants-Montjuïc*. The shape of the graph is surprisingly similar to the `Entire home/apt`.
+
+- The `Shared room` type displays the least number of listings across neighborhoods, with the highest being under 80. The low count could indicate that shared rooms are not a preferred choice for visitors to Barcelona, or such listings are rare.
+
+The vast discrepancy between the number of `Entire home/apt` listings and other types suggests that visitors to Barcelona may prefer the privacy and space of an entire apartment. The data could also imply a potential regulatory environment that either supports whole-home rentals or one that has yet to address this preference in the sharing economy.
+
+The chart is an excellent tool for stakeholders to assess market saturation in various neighborhoods and room types. For investors and property managers, areas with lower counts could represent potential growth opportunities. Conversely, neighborhoods with high listings might face more competition, affecting pricing strategies. For policymakers such as OMIC and the Barcelona City hall, such data can be crucial in understanding how short-term rentals are distributed across the city and may guide decisions on tourism management, zoning, and housing policies to balance the needs of residents and visitors.
