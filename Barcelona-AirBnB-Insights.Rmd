@@ -336,7 +336,7 @@ ggplot(property_counts,
   geom_text(aes(label = quantity), 
             hjust = 0, 
             size = 3) +
-  labs(x = "Room Type", 
+  labs(x = "", 
        y = "Count", 
        title = "Count of each room type",
        subtitle = "Barcelona") +
@@ -387,6 +387,37 @@ ggplot(cor_df, aes(Var1, Var2)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         plot.margin = unit(c(0, 0, 2, 0), "lines"))
+
+```
+
+---
+
+#### 2.3.3. License status
+
+```{r plot3, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=4, fig.align='center'}
+
+# PLOT3: LICENSE STATUS
+
+license_count <- Barcelona_md %>%
+  group_by(LicenseGrouping) %>%
+  summarise(quantity = n())
+
+# Create the bar plot
+ggplot(license_count, 
+       aes(x = reorder(LicenseGrouping, quantity), 
+           y = quantity, 
+           fill = 'red')) +
+  geom_bar(stat = "identity") +
+  labs(x = "",
+       y = "Count", 
+       title = "License status",
+       subtitle = "Barcelona") +
+  geom_text(aes(label = quantity), 
+            hjust = 0, 
+            size = 3) +
+  theme_minimal() +
+  coord_flip() + # Flip the plot to horizontal bars
+  guides(fill = FALSE)  # Remove the legend
 
 ```
 
@@ -470,3 +501,31 @@ The chart is an excellent tool for stakeholders to assess market saturation in v
 
 ---
 
+#### 2.3.6. Room type by neighbourhood
+
+```{r plot6, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=10, fig.align='center'}
+
+# PLOT6: AVERAGE PRICES BY NEIGHBOURHOOD, MAP
+
+# Import geojson and convert to data frame:
+Barcelona_geo <- st_read("Data/Barcelona/neighbourhoods.geojson")
+Barcelona_geo <- st_make_valid(Barcelona_geo)
+print(Barcelona_geo)
+
+merged_data <- merge(Barcelona_geo, Barcelona_md, by = "neighbourhood", all.x = TRUE)
+
+# Calculate the mean price for each neighborhood
+mean_price_by_neighbourhood <- aggregate(price ~ neighbourhood, merged_data, mean)
+
+merged_data <- merge(merged_data, mean_price_by_neighbourhood, by = "neighbourhood")
+
+ggplot(merged_data) +
+  geom_sf(aes(fill = price.y, label = neighbourhood)) +
+   scale_fill_gradient(low = "white", high = "#f1796f") +
+  labs(title = "Average Price by Neighbourhood") +
+  theme_minimal()
+
+
+# Display with background!
+
+```
