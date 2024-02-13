@@ -9,19 +9,24 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 ## 1. Presentation of the case
-### 1.1. Airbnb
 
 <div style="text-align: center;">
-  ![](Assets/Airbnb_Logo_Bélo.svg){width=40%}
+  ![](Assets/Airbnb_Logo_Bélo.svg){width=25%}
 </div>
 
+### 1.1. Airbnb
+
 Airbnb, founded in 2008, has grown from a simple idea of renting out air mattresses in a San Francisco apartment to a global phenomenon in the hospitality industry. It has significantly altered the way people travel by offering unique accommodations from local hosts in over 100,000 cities worldwide. Its platform caters to a diverse range of preferences, from single rooms to entire homes, providing more personalized and often more cost-effective lodging options than traditional hotels. This peer-to-peer model has not only democratized travel accommodations but also enabled millions of hosts to generate additional income. As of 2022, Airbnb had hosted over 800 million guest arrivals, showcasing its vast growth and popularity among travelers seeking authentic experiences. This growth trajectory highlights Airbnb's impact on the travel and tourism sector, prompting a reevaluation of traditional hospitality models and regulatory frameworks globally.
+
+---
 
 ### 1.2. Airbnb controversies
 
 Airbnb's rise has sparked controversies, especially around its impact on local housing markets, community dynamics, and regulatory compliance. The platform has been criticized for contributing to housing shortages by converting long-term rental properties into short-term tourist accommodations, leading to increased rent and property prices. In cities like Barcelona, this has exacerbated existing tensions between residents and tourists, contributing to over-tourism and altering neighborhood characters. Additionally, Airbnb has faced legal challenges regarding compliance with local housing laws and regulations, with accusations of facilitating illegal rentals. These issues have prompted cities worldwide to implement stricter regulations on short-term rentals, balancing the need for tourism revenue with protecting residents' interests and preserving housing affordability.
 
 Recently, Airbnb has seen a noticeable increase in rental prices, attributed to a combination of factors including heightened demand, limited supply, and the gradual recovery of the travel industry post-pandemic. This surge reflects a broader trend in the accommodation sector where prices are climbing as travelers return in large numbers, seeking unique and safe lodging options. The rise in prices has sparked discussions on affordability and access, urging both Airbnb and hosts to balance profitability with providing value to guests.
+
+---
 
 ### 1.3. Airbnb in Barcelona
 
@@ -33,17 +38,19 @@ The Barcelona City Council, led by Mayor Ada Colau, has taken a firm stance agai
 
 Further actions were taken in subsequent years, including the introduction of the PEUAT (Special Urban Plan for Tourist Accommodation) in 2017, which aimed to limit the expansion of tourist accommodations and ensure a balance between tourism and local residents' needs. Despite these measures, conflicts persist, with Airbnb arguing that the city's approach is overly restrictive and harms local hosts who rely on income from short-term rentals.
 
-### 1.4. Data sources.
+---
 
-To carry out this project proposal, two different data sources have been created. The inside Airbnb project and its open data source and the Open Data portal of Barcelona City Council.
+### 1.4. Data sources
 
-Although Airbnb is a company in which data shines due to its importance, being a private listed company, this data is not published openly and must be collected in another way. For this report we have decided to rely on strong, reliable projects that have already demonstrated their relevance in the scene of the regulation of this reservation platform and data from the municipality itself.
+Despite the significance of Airbnb data, the private nature of the company, being publicly listed, rules out its open publication. Consequently, an alternative approach is necessary for data collection. In this report, we opt to depend on robust and reliable projects that have already proven their significance in regulating this reservation platform, as well as data sourced directly from the municipality.
 
-#### 1.4.1. Inside Airbnb
+We have established two distinct sources of data, the first involves the *Inside Airbnb* project, while the second is taken from the Open Data portal of the Barcelona City Council.
 
 <div style="text-align: center;">
-  ![](Assets/InsideAirbnb.png){width=50%}
+  ![](Assets/InsideAirbnb.png){width=25%}
 </div>
+
+#### 1.4.1. Inside Airbnb
 
 The [Inside Airbnb](http://insideairbnb.com/) project is a comprehensive, independent online platform that provides data and analysis on the operations of Airbnb in cities around the world. It was started by activist and data scientist Murray Cox in 2016 as a response to the lack of transparency regarding how Airbnb's business model impacts local housing markets, neighborhoods, and communities. The project aggregates publicly available information on Airbnb listings and reviews to present a more detailed picture of the platform's presence in various cities.
 
@@ -57,11 +64,11 @@ In our case we have used the data set of the city of Barcelona through two files
 
 We thank Inside Airbnb for its collaboration with consumers and the governments in making this data public, easily reachable and visible.
 
-#### 1.4.2. Open data BCN
-
 <div style="text-align: center;">
-  ![](Assets/OpenDataBCN.png){width=50%}
+  ![](Assets/OpenDataBCN.png){width=25%}
 </div>
+
+#### 1.4.2. Open data BCN
 
 The portal https://opendata-ajuntament.barcelona.cat/ is an initiative by the Barcelona City Council aimed at promoting transparency, citizen participation, and innovation through open access to public data. This digital platform offers a wide array of datasets on various city aspects such as transportation, environment, demographics, and economy, enabling developers, researchers, and the general public to analyze, create, and share applications that enhance the understanding and management of the city. 
 
@@ -71,11 +78,14 @@ We thank Barcelona City Council for its collaboration with citizens and general 
 
 https://opendata-ajuntament.barcelona.cat/data/en/dataset/pad_mdbas_sexe/resource/d0e4ec78-e274-4300-a3bc-cb85cf79014d
 
-### 1.5. Municipal Consumer Information Office (OMIC)
+---
+
 
 <div style="text-align: center;">
-  ![](Assets/OMIC.png){width=40%}
+  ![](Assets/OMIC.png){width=25%}
 </div>
+
+### 1.5. Municipal Consumer Information Office (OMIC)
 
 The Municipal Consumer Information Office (OMIC) in Barcelona plays a crucial role in protecting consumer rights within the city. This institution provides essential services such as advice, mediation, and conflict resolution between consumers and businesses. Established to ensure that consumer rights are respected and promoted, OMIC offers a valuable resource for citizens facing issues with products or services.
 
@@ -86,6 +96,8 @@ Additionally, OMIC monitors commercial practices within the city to ensure compl
 We consider that OMIC is the perfect client for a report that reflects the impact that Airbnb is having on the city of Barcelona. Likewise, and after the major controversies over the price increase that Airbnb has had lately, it is interesting to observe the profile of accommodation and large license holders that Barcelona City Council has had under its sights for years. 
 
 This study is the first phase and after adequate negotiation a second could be launched with much more detailed data.
+
+---
 
 ## 2. Data exploration
 
@@ -185,6 +197,7 @@ The interpretation of variables is the following:
 - `number_of_reviews_ltm`: number of reviews in the past 12 months
 - `license`: compliance with City Council; includes the license ID number if available, otherwise, pending or empty
 
+
 #### 2.1.2. Open data BCN
 
 As explained previously, the data from has been enriched with official demographic information obtained via API from the Open Data BCN project from the City Council. The topic of choice was “Population of Barcelona aggregated by sex according to the Municipal Register of Inhabitants on January 1 of each year”, found in the file `2023_pad_mdbas_sexe.csv`, from which the population grouped by neighbourhood and district was extracted and merged into our main data frame. The indexed fields are:
@@ -232,17 +245,22 @@ Barcelona_md <- left_join(Barcelona, demographics_grouped, by =
 
 The merge has been done for `neighbourhood = Nom_Barri`, resulting in a new `demographics` column in our `Barcelona_md` data frame (md for merged).
 
+---
+
 ### 2.2. Further data enrichment
 
 From a first assessment of the data it was observed that within it, additional numerical and categorical variables could be extracted and used to provide insightful details once plotted.
+
 
 #### 2.2.1. Star rating
 
 The `name` field was found to include among other information the star rating from 0 to 5 preceded by a star character, a pattern easily reproducible with regular expressions. With pipes and filters it has been extracted as a numerical value and introduced as an additional column. Cases where names do not contain a star rating are listed as NA.
 
+
 #### 2.2.2. License status
 
 String items found under `license` were observed to either contain a license ID matching the City Council's figure HUTB (Habitatge d'Ús Turístic de Barcelona), the word 'Exempt', or be missing at all. A new variable `LicenseGrouping` was established to contain three new categories: `Exempt`, `License is displayed` and `License is not displayed`.
+
 
 #### 2.2.3. Large and small tenants
 
@@ -283,8 +301,8 @@ print(Barcelona_md)
 
 Barcelona_md <- Barcelona_md %>%
   mutate(TenantSizeGrouping = case_when(
-    calculated_host_listings_count >= 10 ~ "Large tenant",
-    calculated_host_listings_count <= 9 ~ "Small tenant",
+    calculated_host_listings_count >= 5 ~ "Large tenant",
+    calculated_host_listings_count <= 4 ~ "Small tenant",
     TRUE ~ NA_character_ # This handles any unexpected cases, such as missing values
   ))
 
@@ -294,6 +312,8 @@ head(Barcelona_md)
 ################################################################################
 
 ```
+
+---
 
 ### 2.3. Visualizations
 
@@ -334,6 +354,87 @@ The `Entire home/apt` category has the highest count, approaching the 10,000 mar
 
 The visual emphasizes the prevalence of whole property rentals in Barcelona's accommodation offerings, with a substantial secondary market for private rooms. The minimal presence of shared and hotel room listings could reflect market demand or possibly restrictions and regulations within the city.
 
+---
+
+#### 2.3.2. Correlation of numerical values
+
+``` {r plot2, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=8, fig.align='center'}
+
+# PLOT2: CORRELATION PLOT
+
+numeric_data <- Barcelona_md[, sapply(Barcelona_md, is.numeric)]
+numeric_data <- numeric_data[, !colnames(numeric_data) %in% c('host_id',
+                                                              'id',
+                                                              'latitude',
+                                                              'longitude', 
+                                                              'number_of_reviews_ltm')]
+
+# Compute correlation matrix
+cor_matrix <- cor(numeric_data, use = "pairwise.complete.obs")
+
+# Convert correlation matrix to long format for ggplot
+cor_df <- as.data.frame(as.table(cor_matrix))
+names(cor_df) <- c("Var1", "Var2", "Correlation")
+
+ggplot(cor_df, aes(Var1, Var2)) +
+  geom_point(aes(fill = Correlation), size = 12, shape = 21, color = "darkgrey") +
+  scale_size_continuous(guide = "none") +  # Remove size legend
+  scale_fill_gradient(low = "white", high = "#f1796f") +
+  labs(title = "Correlation of Numerical Values",
+       subtitle = "Barcelona",
+       x = "",
+       y = "") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.margin = unit(c(0, 0, 2, 0), "lines"))
+
+```
+
+---
+
+#### 2.3.4. Large vs. small tenants
+
+```{r plot4, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=3, fig.align='center'}
+
+# PLOT 4: GREAT AND SMALL TENANTS
+
+tenant_count <- Barcelona_md %>%
+  group_by(TenantSizeGrouping) %>%
+  summarise(quantity = n())
+
+# Create the bar plot
+ggplot(tenant_count, 
+       aes(x = reorder(TenantSizeGrouping, quantity), 
+           y = quantity, 
+           fill = 'red')) +
+  geom_bar(stat = "identity") +
+  labs(x = "",
+       y = "Count", 
+       title = "Types of Tenant",
+       subtitle = "Barcelona") +
+  geom_text(aes(label = quantity), 
+            hjust = 0, 
+            size = 3) +
+  theme_minimal() +
+  coord_flip() + # Flip the plot to horizontal bars
+  guides(fill = FALSE)  # Remove the legend
+
+```
+
+This chart contrasts two categories of landlords: `Small tenant` and `Large tenant`, based on the `Number of listings` they possess. The category `Small tenant` outnumbers `Large tenant owned`, indicating a slightly higher prevalence of landlords with fewer properties.
+
+Given the context of rental tension zones, equality of small and  tenants may suggest a rental market with a concentrated number of players, potentially increasing the likelihood of monopolistic behavior affecting rental prices. However, the [recent legislation](https://www.boe.es/buscar/act.php?id=BOE-A-2023-12203) changed the definition of a large property owner from 10 to 5 properties. This meant that several former small tenants now qualify as large tenants, potentially altering the market dynamics and affecting the application of policies within stressed areas.
+
+The number of listings from small tenants is over 9,000, a substantial figure that indicates the scale of their presence in the market. Large tenants listings, with a count above 8,000, although less than small tenants, represent a significant portion of the market as well. The data indicates that both small and large tenants play important roles in the housing ecosystem of Barcelona.
+
+Regarding the law's stipulations, if the large tenants' listings are concentrated in areas where housing costs exceed 30% of household income or where rental prices have outpaced CPI by more than 3 percentage points, these areas could be designated as rental tension zones. This would trigger regulatory measures that could include rent capping or other controls to protect tenants.
+
+It's also worth noting that the presence of more small tenants could reflect a diverse range of property offerings, from single rooms to entire apartments, which may cater to different segments of the population. This might have a stabilizing effect on rental prices, as a diverse supply can meet varied demand. However, if small tenants begin to consolidate or if their listings push housing costs above the 30% income threshold, it could lead to increased regulatory scrutiny.
+
+In conclusion, this chart suggests a competitive rental market in Barcelona, with a predominance of small tenants. With legislative changes, the landscape could shift, potentially impacting rent levels, housing availability, and the designation of rental tension zones. Stakeholders, including policymakers and market participants, would need to monitor these dynamics closely to understand the full implications of the law on the rental market.
+
+---
+
 #### 2.3.5. Room type by neighbourhood
 
 ```{r plot5, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=10, fig.align='center'}
@@ -366,3 +467,6 @@ This chart provides a detailed breakdown of Airbnb listings in Barcelona by room
 The vast discrepancy between the number of `Entire home/apt` listings and other types suggests that visitors to Barcelona may prefer the privacy and space of an entire apartment. The data could also imply a potential regulatory environment that either supports whole-home rentals or one that has yet to address this preference in the sharing economy.
 
 The chart is an excellent tool for stakeholders to assess market saturation in various neighborhoods and room types. For investors and property managers, areas with lower counts could represent potential growth opportunities. Conversely, neighborhoods with high listings might face more competition, affecting pricing strategies. For policymakers such as OMIC and the Barcelona City hall, such data can be crucial in understanding how short-term rentals are distributed across the city and may guide decisions on tourism management, zoning, and housing policies to balance the needs of residents and visitors.
+
+---
+
