@@ -2,7 +2,9 @@
 title: "Barcelona Airbnb Insights"
 author: "Daniel Herrera & Rodrigo González"
 date: "2024-02-10"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -148,6 +150,9 @@ library(osmdata)
 library(maptiles)    ## for get_tiles() / used instead of OpenStreetMap
 library(tidyterra)   ## for geom_spatraster_rgb() - Background tiles
 
+# Set default graphics device to PDF
+options(knitr.graphics.format = "svg")
+
 ################################################################################
 
 # LOADING CITY AIRBNB DATA
@@ -203,7 +208,7 @@ The interpretation of variables is the following:
 As explained previously, the data from has been enriched with official demographic information obtained via API from the Open Data BCN project from the City Council. The topic of choice was “Population of Barcelona aggregated by sex according to the Municipal Register of Inhabitants on January 1 of each year”, found in the file `2023_pad_mdbas_sexe.csv`, from which the population grouped by neighbourhood and district was extracted and merged into our main data frame. The indexed fields are:
 
 
-```{r API, include=FALSE, cache=TRUE}
+```{r API, cache=TRUE, include=FALSE}
 
 ################################################################################
 
@@ -501,9 +506,9 @@ The chart is an excellent tool for stakeholders to assess market saturation in v
 
 ---
 
-#### 2.3.6. Average price by neighbourhood
+#### 2.3.6. Average price by neighbourhood map overview
 
-```{r plot6, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=10, fig.align='center', cache=TRUE}
+```{r plot6, echo=FALSE, error=FALSE, fig.align='center', fig.height=10, fig.keep='all', fig.width=10, message=FALSE, warning=FALSE, cache=TRUE, results='hide'}
 
 # PLOT6: AVERAGE PRICES BY NEIGHBOURHOOD, MAP
 
@@ -516,6 +521,7 @@ geojson_BCN <- sf::st_read("Data/Barcelona/neighbourhoods.geojson")
 # Create bounding box limits, map and merge geojson with Barcelona_md
 bbox.limits <- sf::st_bbox(geojson_BCN)
 map_BCN <- get_stadiamap(getbb("Barcelona"), maptype = "stamen_toner_lite", zoom = 13)
+
 merged_data <- merge(geojson_BCN, Barcelona_md, by = "neighbourhood", all.x = TRUE)
 
 # Calculate the mean price for each neighborhood
@@ -527,8 +533,9 @@ ggmap(map_BCN) +
   geom_sf(data = merged_data,
           inherit.aes = FALSE,
           aes(fill = price.y, label = neighbourhood),
-          color = "#f1796f", linewidth = 0.4) +
-  scale_fill_gradient(low = alpha("white", 0.5), high = alpha("#f1796f", 0.5)) +
+          color = "#f1796f",
+          linewidth = 0.4) +
+  scale_fill_gradient(low = alpha("white", 0), high = "#f1796f") +
   labs(title = "Average Price by Neighbourhood",
        x = "Longitude",
        y = "Latitude")
@@ -730,3 +737,111 @@ ggplot(top_hosts, aes(x = reorder(host_name, calculated_host_listings_count),
 
 ```
 
+---
+
+#### 2.3.15. Proportion of Airbnb listings per person by neighbourhood group
+
+```{r plot15, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=4, fig.align='center'}
+
+# PLOT 15: Proportion of Airbnb listings per person by Neighbourhood Group (%)
+
+# Group by neighbourhood and count
+data_grouped <- Barcelona_md %>%
+  group_by(neighbourhood_group) %>%
+  summarise(count = n())
+print(data_grouped)
+
+# Group total population by neighbourhood group
+unique_population_per_neighbourhood_group <- Barcelona_md %>%
+  select(neighbourhood_group, Total_Population) %>%
+  distinct()
+print(unique_population_per_neighbourhood_group)
+
+data_grouped_with_population <- left_join(data_grouped, 
+                                          unique_population_per_neighbourhood_group,
+                                          by = "neighbourhood_group")
+
+data_grouped_with_population$proportion <- data_grouped_with_population$count / data_grouped_with_population$Total_Population
+data_grouped_with_population$proportion_percent <- data_grouped_with_population$proportion * 100
+
+
+# Barplot in ggplot2 as percentages
+ggplot(data_grouped_with_population, aes(x = reorder(neighbourhood_group, -proportion), y = proportion)) +
+  geom_bar(stat = "identity", fill = "#f1796f") +
+  theme_minimal() +
+  labs(title = "Number of Airbnbs per 100 residents (%)",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "(%)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        panel.grid.major.y = element_line(color = "grey", size = 0.1),
+        panel.grid.minor.y = element_line(color = "lightgrey", size))
+
+```
+
+---
+
+#### 2.3.16. Airbnb listings by neighbourhood group
+
+```{r plot16, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=4, fig.align='center'}
+
+# PLOT 16: Number of Airbnb Listings by Neighbourhood Group in Barcelona
+
+listings_count <- Barcelona_md %>%
+  group_by(neighbourhood_group) %>%
+  summarise(number_of_listings = n()) %>%
+  arrange(number_of_listings)  # Orden ascendente
+
+ggplot(listings_count, aes(x = reorder(neighbourhood_group,
+                                       number_of_listings),
+                           y = number_of_listings,
+                           fill = neighbourhood_group)) +
+  geom_bar(stat = "identity",
+           color = NA,
+           show.legend = FALSE) +
+  scale_fill_manual(values = rep("#f1796f",
+                                 length(unique(listings_count$neighbourhood_group)))) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1)) +
+  labs(x = "",
+       y = "Number of Listings",
+       title = "Number of Listings by Neighbourhood Group in Barcelona",
+       subtitle = "Barcelona") +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+  scale_y_continuous(breaks = seq(0, max(listings_count$number_of_listings), by = 750))
+
+```
+
+This bar chart illustrates the number of Airbnb listings across different neighbourhoods in Barcelona. The most prominent feature is the overwhelming dominance of the *Eixample* neighbourhood, with the number of listings towering over other areas. This suggests *Eixample* is a highly sought-after area for tourists or visitors using Airbnb. In contrast, neighbourhoods like *Nou Barris* and *Sant Andreu* have far fewer listings, which may indicate less tourist activity or a lower availability of rental properties on Airbnb. 
+
+The distribution indicates a potential disparity in the spread of tourism across the city, with certain areas possibly facing higher pressure from tourist accommodation. It is very interesting to note that only considering *Eixample* the number of listings is greater than the sum of the last six neighborhoods. This could have implications for local housing markets, infrastructure demand, and urban planning. The chart effectively highlights the disparities and could serve as a basis for more detailed analysis on the impact of short-term rentals on the urban landscape of Barcelona. As mentioned, there are several areas that do not reach a few hundred listings, which indicates a very low concentration of Airbnbs in relation to the people who reside there.
+
+---
+
+#### 2.3.17. Airbnb listings map overview
+
+```{r plot17, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=10, fig.align='center'}
+
+# PLOT 6.1: ALL LISTINGS ON A MAP
+
+# Plot map
+ggmap(map_BCN) +
+    geom_sf(data = merged_data,
+          inherit.aes = FALSE,
+          aes(fill = price.y, label = neighbourhood),
+          fill = "white",
+          alpha = 0,
+          color = "#f1796f",
+          linewidth = 0.5) +
+  geom_point(data = Barcelona_md, 
+             aes(x = longitude, y = latitude), 
+             color = "#f1796f",
+             alpha = 0.2,
+             size = 0.4) +
+  labs(title = "Airbnb listings overview",
+       subtitle = "Barcelona",
+       x = "Longitude",
+       y = "Latitude")
+
+```

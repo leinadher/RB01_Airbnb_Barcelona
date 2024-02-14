@@ -76,8 +76,8 @@ Barcelona_md <- left_join(Barcelona, demographics_grouped, by =
 # EXTRACT STAR-RATING FROM NAME, AND ADD AS COLUMN TO DATA FRAME
 
 extract_star_rating <- function(name) {
-  matches <- str_extract(name, "★([0-9.]+)")
-  as.numeric(gsub("★", "", matches))
+  matches <- str_extract(name, "b([0-9.]+)")
+  as.numeric(gsub("b", "", matches))
 }
 
 Barcelona_md$star_rating <- sapply(Barcelona_md$name, extract_star_rating)
@@ -215,26 +215,58 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group)) +
 
 ################################################################################
 
-# PLOT6: AVERAGE PRICES BY NEIGHBOURHOOD, MAP
+# PLOT 6: AVERAGE PRICES BY NEIGHBOURHOOD, MAP
 
-# Import geojson and convert to data frame:
-Barcelona_geo <- st_read("Data/Barcelona/neighbourhoods.geojson")
-Barcelona_geo <- st_make_valid(Barcelona_geo)
-print(Barcelona_geo)
+# Load API key. UPDATE WHEN EXPIRED!
+register_stadiamaps("8df95c0b-0133-4440-b3f0-c1c6e2f26844", write = TRUE)
 
-merged_data <- merge(Barcelona_geo, Barcelona_md, by = "neighbourhood", all.x = TRUE)
+# Load GeoJSON file and convert to sf object
+geojson_BCN <- sf::st_read("Data/Barcelona/neighbourhoods.geojson")
+
+# Create bounding box limits, map and merge geojson with Barcelona_md
+bbox.limits <- sf::st_bbox(geojson_BCN)
+map_BCN <- get_stadiamap(getbb("Barcelona"), maptype = "stamen_toner_lite", zoom = 13)
+
+merged_data <- merge(geojson_BCN, Barcelona_md, by = "neighbourhood", all.x = TRUE)
 
 # Calculate the mean price for each neighborhood
 mean_price_by_neighbourhood <- aggregate(price ~ neighbourhood, merged_data, mean)
-
 merged_data <- merge(merged_data, mean_price_by_neighbourhood, by = "neighbourhood")
 
-ggplot(merged_data) +
-  geom_sf(aes(fill = price.y, label = neighbourhood)) +
-  scale_fill_viridis_c() +
-  labs(title = "Average Price by Neighbourhood")
+# Plot map
+ggmap(map_BCN) +
+  geom_sf(data = merged_data,
+          inherit.aes = FALSE,
+          aes(fill = price.y,
+              label = neighbourhood),
+          color = "#f1796f", 
+          linewidth = 0.4) +
+  scale_fill_gradient(low = alpha("white", 0.5), high = alpha("#f1796f", 0.5)) +
+  labs(title = "Average Price by Neighbourhood",
+       x = "Longitude",
+       y = "Latitude")
 
-# Display with background!
+################################################################################
+
+
+# PLOT 6.1: ALL LISTINGS ON A MAP
+
+# Plot map
+ggmap(map_BCN) +
+  geom_sf(data = merged_data,
+          inherit.aes = FALSE,
+          aes(fill = price.y, label = neighbourhood),
+          color = "#f1796f", linewidth = 0.4) +
+  scale_fill_gradient(low = alpha("white", 0.5), high = alpha("#f1796f", 0.5)) +
+  labs(title = "Average Price by Neighbourhood",
+       x = "Longitude",
+       y = "Latitude")
+
+################################################################################
+
+
+
+
 
 ################################################################################
 
@@ -394,3 +426,70 @@ ggplot(top_hosts, aes(x = reorder(host_name, calculated_host_listings_count),
         panel.grid.major.x = element_line(color = "gray"),
         panel.grid.minor.x = element_line(color = "gray")
         )
+
+################################################################################
+
+# PLOT 15: Proportion of Airbnb listings per person by Neighbourhood Group (%)
+
+# Group by neighbourhood and count
+data_grouped <- Barcelona_md %>%
+  group_by(neighbourhood_group) %>%
+  summarise(count = n())
+print(data_grouped)
+
+# Group total population by neighbourhood group
+unique_population_per_neighbourhood_group <- Barcelona_md %>%
+  select(neighbourhood_group, Total_Population) %>%
+  distinct()
+print(unique_population_per_neighbourhood_group)
+
+data_grouped_with_population <- left_join(data_grouped, 
+                                          unique_population_per_neighbourhood_group,
+                                          by = "neighbourhood_group")
+
+data_grouped_with_population$proportion <- data_grouped_with_population$count / data_grouped_with_population$Total_Population
+data_grouped_with_population$proportion_percent <- data_grouped_with_population$proportion * 100
+
+
+# Barplot in ggplot2 as percentages
+ggplot(data_grouped_with_population, aes(x = reorder(neighbourhood_group, -proportion), y = proportion)) +
+  geom_bar(stat = "identity", fill = "lightsalmon") +
+  theme_minimal() +
+  labs(title = "Number of Airbnbs per 100 residents (%)",
+       x = "Neighbourhood",
+       y = "(%)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        panel.grid.major.y = element_line(color = "grey", size = 0.1),
+        panel.grid.minor.y = element_line(color = "lightgrey", size))
+
+################################################################################
+
+# PLOT 16: Number of Airbnb Listings by Neighbourhood Group in Barcelona
+
+listings_count <- Barcelona_md %>%
+  group_by(neighbourhood_group) %>%
+  summarise(number_of_listings = n()) %>%
+  arrange(number_of_listings)  # Orden ascendente
+
+ggplot(listings_count, aes(x = reorder(neighbourhood_group,
+                                       number_of_listings),
+                           y = number_of_listings,
+                           fill = neighbourhood_group)) +
+  geom_bar(stat = "identity",
+           color = NA,
+           show.legend = FALSE) +
+  scale_fill_manual(values = rep("#f1796f",
+                                 length(unique(listings_count$neighbourhood_group)))) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1)) +
+  labs(x = "",
+       y = "Number of Listings",
+       title = "Number of Airbnb Listings by Neighbourhood Group in Barcelona",
+       subtitle = "Barcelona") +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
+  scale_y_continuous(breaks = seq(0, max(listings_count$number_of_listings), by = 750))
+
+
+
+
