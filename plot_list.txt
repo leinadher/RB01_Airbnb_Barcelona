@@ -18,6 +18,8 @@
 
 ##############################################################################################
 
+PLOTS REORDENADOS POR TEMAS
+
 1. Foundational Plots:
 
 2.3.17. Airbnb listings map overview
@@ -40,8 +42,8 @@
 2.3.9. Price by neighbourhood
 2.3.7. Listings by minimum nights
 2.3.11. Boxplots by price
-2.3.12. Boxplots by minimum nights --- DESCARTABLE
-2.3.13. Boxplots by number of reviews
+2.3.12. Boxplots by minimum nights	# Descartable, está ajustado a log10, el cuantil superior no dice nada
+2.3.13. Boxplots by number of reviews	# Descartable
 
 
 4. Correlations and Relationships:

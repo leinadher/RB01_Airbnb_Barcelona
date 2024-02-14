@@ -582,7 +582,7 @@ ggplot(Barcelona_md, aes(x = minimum_nights_grouped)) +
 
 # PLOT 8: LISTINGS BY HOST
 
-listings_per_host <- Barcelona_md %>%
+listings_per_host <- Barcelon_md %>%
   group_by(host_id) %>%
   summarize(count = n()) %>%
   ungroup()
@@ -730,10 +730,7 @@ ggplot(top_hosts, aes(x = reorder(host_name, calculated_host_listings_count),
        y = "Listing Count") +
   coord_flip() + # Flip the plot to horizontal bars
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 0, hjust = 1),
-        panel.grid.major.x = element_line(color = "gray"),
-        panel.grid.minor.x = element_line(color = "gray")
-        )
+  theme(axis.text.x = element_text(angle = 0, hjust = 1))
 
 ```
 
