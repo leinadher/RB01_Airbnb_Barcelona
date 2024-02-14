@@ -501,31 +501,232 @@ The chart is an excellent tool for stakeholders to assess market saturation in v
 
 ---
 
-#### 2.3.6. Room type by neighbourhood
+#### 2.3.6. Average price by neighbourhood
 
-```{r plot6, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=10, fig.align='center'}
+```{r plot6, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=10, fig.align='center', cache=TRUE}
 
 # PLOT6: AVERAGE PRICES BY NEIGHBOURHOOD, MAP
 
-# Import geojson and convert to data frame:
-Barcelona_geo <- st_read("Data/Barcelona/neighbourhoods.geojson")
-Barcelona_geo <- st_make_valid(Barcelona_geo)
-print(Barcelona_geo)
+# Load API key. UPDATE WHEN EXPIRED!
+register_stadiamaps("8df95c0b-0133-4440-b3f0-c1c6e2f26844", write = TRUE)
 
-merged_data <- merge(Barcelona_geo, Barcelona_md, by = "neighbourhood", all.x = TRUE)
+# Load GeoJSON file and convert to sf object
+geojson_BCN <- sf::st_read("Data/Barcelona/neighbourhoods.geojson")
+
+# Create bounding box limits, map and merge geojson with Barcelona_md
+bbox.limits <- sf::st_bbox(geojson_BCN)
+map_BCN <- get_stadiamap(getbb("Barcelona"), maptype = "stamen_toner_lite", zoom = 13)
+merged_data <- merge(geojson_BCN, Barcelona_md, by = "neighbourhood", all.x = TRUE)
 
 # Calculate the mean price for each neighborhood
 mean_price_by_neighbourhood <- aggregate(price ~ neighbourhood, merged_data, mean)
-
 merged_data <- merge(merged_data, mean_price_by_neighbourhood, by = "neighbourhood")
 
-ggplot(merged_data) +
-  geom_sf(aes(fill = price.y, label = neighbourhood)) +
-   scale_fill_gradient(low = "white", high = "#f1796f") +
-  labs(title = "Average Price by Neighbourhood") +
-  theme_minimal()
-
-
-# Display with background!
+# Plot map
+ggmap(map_BCN) +
+  geom_sf(data = merged_data,
+          inherit.aes = FALSE,
+          aes(fill = price.y, label = neighbourhood),
+          color = "#f1796f", linewidth = 0.4) +
+  scale_fill_gradient(low = alpha("white", 0.5), high = alpha("#f1796f", 0.5)) +
+  labs(title = "Average Price by Neighbourhood",
+       x = "Longitude",
+       y = "Latitude")
 
 ```
+
+---
+
+#### 2.3.7. Listings by minimum nights
+
+```{r plot7, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
+
+# PLOT 7: LISTINGS BY MINIMUM NIGHTS
+
+# Modify the minimum_nights column to create a '35+' category
+Barcelona_md$minimum_nights_grouped <- ifelse(Barcelona_md$minimum_nights > 35, 
+                                              "35+",
+                                              as.character(Barcelona_md$minimum_nights))
+
+# Convert the column to a factor to control the order in the plot
+Barcelona_md$minimum_nights_grouped <- factor(Barcelona_md$minimum_nights_grouped,
+                                              levels = c(as.character(1:35),
+                                                         "35+"))
+
+# Create the histogram
+ggplot(Barcelona_md, aes(x = minimum_nights_grouped)) +
+  geom_bar(fill = "#f1796f") +
+  labs(x = "Minimum Nights",
+       y = "Count",
+       title = "Distribution of Listings by Minimum Nights",
+       subtitle = "Barcelona") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 0,
+                                   vjust = 0.5, 
+                                   hjust = 1))
+
+```
+
+---
+
+#### 2.3.8. Listings by host
+
+```{r plot8, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=4, fig.align='center'}
+
+# PLOT 8: LISTINGS BY HOST
+
+listings_per_host <- Barcelona_md %>%
+  group_by(host_id) %>%
+  summarize(count = n()) %>%
+  ungroup()
+
+# Group all counts of 10 or more into '10+'
+listings_per_host$count_grouped <- ifelse(listings_per_host$count > 10,
+                                          "10+",
+                                          as.character(listings_per_host$count))
+
+# Convert the column to a factor to control the order in the plot
+listings_per_host$count_grouped <- factor(listings_per_host$count_grouped,
+                                          levels = c(as.character(1:10), 
+                                                     "10+"))
+
+# Create the histogram
+ggplot(listings_per_host, aes(x = count_grouped)) +
+  geom_bar(fill = "#f1796f") +
+  labs(x = "Listings per Host",
+       y = "Number of Hosts",
+       title = "Distribution of Listings per Host",
+       subtitle = "Barcelona") +
+  theme(axis.text.x = element_text()) +
+  theme_minimal()
+
+# 10+ is WRONG!
+
+```
+
+---
+
+#### 2.3.9. Price by neighbourhood
+
+```{r plot9, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=8, fig.align='center'}
+
+ggplot(Barcelona, aes(x = neighbourhood_group, y = price)) +
+  geom_jitter(width = 0.2,
+              alpha = 0.25,
+              color = "#f1796f") +
+  geom_violin(fill = NA) +
+  scale_y_log10() +
+  labs(title = "Neighbourhood vs Price",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Price") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45))
+
+```
+
+---
+
+#### 2.3.10. Price by rating
+
+```{r plot10, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
+
+ggplot(Barcelona_md, aes(x = star_rating, y = price)) +
+  geom_point(width = 0.1,
+             alpha = 0.4) + # Plot the points
+  geom_smooth(method = "lm", color = "#f1796f") + # Add linear model line
+  labs(title = "Scatter Chart of Star Rating vs. Price with Linear Model",
+       subtitle = "Barcelona",
+       x = "Star Rating",
+       y = "Price") +
+  theme_minimal()
+
+```
+
+---
+
+#### 2.3.11. Boxplots by price
+
+```{r plot11, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
+  geom_boxplot(fill = "#c77cff", alpha = 0.4, outlier.color = "#c77cff", color = "#c77cff") +
+  scale_y_log10() +
+  labs(title = "Price by Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Price") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
+
+```
+
+---
+
+#### 2.3.12. Boxplots by minimum nights
+
+```{r plot12, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = minimum_nights)) +
+  geom_boxplot(fill = "#7cae00", alpha = 0.4, outlier.color = "#7cae00", color = "#7cae00") +
+  scale_y_log10() + # Otherwise boxplot conveys no information
+  labs(title = "Minimum Nights by Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Minimum Number of Nights") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
+
+```
+
+---
+
+#### 2.3.13. Boxplots by number of reviews
+
+```{r plot13, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = number_of_reviews)) +
+  geom_boxplot(fill = "#00bfc4", alpha = 0.4, outlier.color = "#00bfc4", color = "#00bfc4") +
+  coord_cartesian(ylim = c(0, 200)) + 
+  labs(title = "Number of Reviews by Neighbourhood",
+       subtitle = "Barcelona",
+       x = "Neighbourhood",
+       y = "Number of Reviews") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
+
+```
+
+---
+
+#### 2.3.14. Top hosts by number of listings
+
+```{r plot14, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=4, fig.align='center'}
+
+top_hosts <- Barcelona_md %>%
+  distinct(host_name, .keep_all = TRUE) %>%
+  arrange(desc(calculated_host_listings_count)) %>%
+  slice_head(n = 5)
+
+# Create the ggplot2 horizontal barplot
+ggplot(top_hosts, aes(x = reorder(host_name, calculated_host_listings_count),
+                      y = calculated_host_listings_count)) +
+  geom_bar(stat = "identity",
+           fill = "#f1796f") +
+  geom_text(aes(label = calculated_host_listings_count), 
+            hjust = 0, 
+            color = "black",
+            size = 3) +
+  labs(title = "Top 5 Hosts by Number of Listings",
+       subtitle = "Barcelona",
+       x = "",
+       y = "Listing Count") +
+  coord_flip() + # Flip the plot to horizontal bars
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 0, hjust = 1),
+        panel.grid.major.x = element_line(color = "gray"),
+        panel.grid.minor.x = element_line(color = "gray")
+        )
+
+```
+
