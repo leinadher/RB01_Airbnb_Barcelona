@@ -1,33 +1,50 @@
 #### 2.3.1. Room type count
-
 #### 2.3.2. Correlation of numerical values
-
 #### 2.3.3. License status
-
 #### 2.3.4. Large vs. small tenants
-
 #### 2.3.5. Room type by neighbourhood
-
 #### 2.3.6. Average price by neighbourhood map overview
-
 #### 2.3.7. Listings by minimum nights
-
 #### 2.3.8. Host count by listing count
-
 #### 2.3.9. Price by neighbourhood
-
 #### 2.3.10. Price by rating
-
 #### 2.3.11. Boxplots by price
-
 #### 2.3.12. Boxplots by minimum nights
-
 #### 2.3.13. Boxplots by number of reviews
-
 #### 2.3.14. Top hosts by number of listings
-
 #### 2.3.15. Proportion of Airbnb listings per person by neighbourhood group
-
 #### 2.3.16. Airbnb listings by neighbourhood group
-
 #### 2.3.17. Airbnb listings map overview
+
+##############################################################################################
+
+1. Foundational Plots:
+
+2.3.17. Airbnb listings map overview
+2.3.16. Airbnb listings by neighbourhood group
+2.3.15. Proportion of Airbnb listings per person by neighbourhood group
+
+
+2. Listing and Host Characteristics:
+
+2.3.1. Room type count
+2.3.3. License status
+2.3.4. Large vs. small tenants
+2.3.8. Host count by listing count
+2.3.14. Top hosts by number of listings
+
+
+3. Price and Availability:
+
+2.3.6. Average price by neighbourhood map overview
+2.3.9. Price by neighbourhood
+2.3.7. Listings by minimum nights
+2.3.11. Boxplots by price
+2.3.12. Boxplots by minimum nights --- DESCARTABLE
+2.3.13. Boxplots by number of reviews
+
+
+4. Correlations and Relationships:
+
+2.3.2. Correlation of numerical values
+2.3.10. Price by rating
