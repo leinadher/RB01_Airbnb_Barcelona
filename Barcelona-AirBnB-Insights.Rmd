@@ -275,6 +275,15 @@ By considering the variable `calculated_host_listings_count` and referencing the
 
 ################################################################################
 
+# FILTER OUT WRONG OUTLIERS
+# Specifically, a listing valued at about €60,000 per night,
+# which is missing other information fields, and distorts further plots.
+# This was a team-agreed decision to provide cleaner results.
+
+Barcelona_md <- filter(Barcelona_md, price < 20000)
+
+################################################################################
+
 # EXTRACT STAR-RATING FROM NAME, AND ADD AS COLUMN TO DATA FRAME
 
 extract_star_rating <- function(name) {
@@ -672,7 +681,7 @@ ggmap(map_BCN) +
 
 ```{r plot11, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=8, fig.align='center'}
 
-ggplot(Barcelona, aes(x = neighbourhood_group, y = price)) +
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
   geom_jitter(width = 0.2,
               alpha = 0.25,
               color = "#f1796f") +
