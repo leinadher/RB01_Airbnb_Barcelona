@@ -444,6 +444,10 @@ ggplot(data_grouped_with_population, aes(x = reorder(neighbourhood_group, propor
 
 ```
 
+The data presented in this bar graph serves as an insightful complement to the previous visualization. By comparing the number of listings in each neighbourhood group with the official demographics corresponding to that district, a proportion of Airbnb listings per person can be obtained. This better reflects the different densities of listings between parts of the city. Although *Eixample* and *Ciutat Vella* still reign as the most listing-saturated districts, the higher concentration of *Ciutat Vella* compared to *Eixample* becomes obvious. This is explained by many factors, such as the higher urban density of the Old City and the resulting higher concentration of population by area, and also *Eixample* being a rather large district within Barcelona. Similar observations can be made between the other neighbourhood groups.
+
+According to the [Government of Catalonia](https://web.gencat.cat/es/actualitat/detall/Regulacio-de-pisos-turistics-per-garantir-lacces-a-lhabitatge), areas with more than 5 tourist housing listings per 100 inhabitants face housing access issues. A recent Decree Law has set this limit to address the problem, with city councils having the authority to permit up to 10 through their urban planning. It's important to note that our study focuses exclusively on Airbnb listings, and other units may be legally listed as tourist accommodations on different platforms.
+
 ---
 
 #### 2.3.4. Room type count
@@ -476,7 +480,7 @@ ggplot(property_counts,
 
 There are four categories of room types displayed: `Entire home/apt`, `Private room`, `Shared room`, and `Hotel room`.
 
-The `Entire home/apt` category has the highest count, approaching the 10,000 mark, suggesting that entire apartments or homes are the most common type of property listed in Barcelona. The `Private room` category follows, with roughly half as many listings as entire homes, indicating a significant presence in the market but less than the full property rentals.
+The `Entire home/apt` category has the highest count, surpassing the 10,000 mark, suggesting that entire apartments or homes are the most common type of property listed in Barcelona. The `Private room` category follows, with roughly half as many listings as entire homes, indicating a significant presence in the market but less than the full property rentals.
 
 `Shared rooms` and `Hotel rooms` have significantly fewer listings compared to the other two categories. Shared rooms barely register on the scale, suggesting they are a less popular option among the listings. Hotel rooms have the smallest count, indicating that traditional hotel stays are much less commonly listed on platforms likely compared to short-term rental options.
 
@@ -543,6 +547,7 @@ ggplot(license_count,
   guides(fill = FALSE)  # Remove the legend
 
 ```
+This visualization provides a rough insight into the licensing status of listings. According to the law, full-home listings require a registration and a license number. Instances under the `License not displayed` group may either be listed illegally or have their license approval pending. `Exempt` could mean a listing only includes part of an full housing unit or apartment, and thus does not have to be legally registered as full touristic housing. It would be valuable to observe the evolution of the `License is displayed` group over time, to evaluate whether the city's efforts to regulate touristic housing have any effectiveness.
 
 ---
 
