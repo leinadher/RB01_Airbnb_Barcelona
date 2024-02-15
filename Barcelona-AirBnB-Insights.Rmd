@@ -547,7 +547,7 @@ ggplot(license_count,
   guides(fill = FALSE)  # Remove the legend
 
 ```
-This visualization provides a rough insight into the licensing status of listings. According to the law, full-home listings require a registration and a license number. Instances under the `License not displayed` group may either be listed illegally or have their license approval pending. `Exempt` could mean a listing only includes part of an full housing unit or apartment, and thus does not have to be legally registered as full touristic housing. It would be valuable to observe the evolution of the `License is displayed` group over time, to evaluate whether the city's efforts to regulate touristic housing have any effectiveness.
+This visualization provides a rough insight into the licensing status of listings. According to the law, full-home listings require a registration and a license number. Instances under the `License not displayed` group may either be listed illegally or have their license approval pending. `Exempt` could mean a listing only includes part of a housing unit or a room, and thus does not have to be legally registered as full touristic housing. It would be valuable to observe the evolution of the `License is displayed` group over time, to evaluate whether the city's efforts to regulate touristic housing have any effectiveness.
 
 ---
 
