@@ -661,17 +661,26 @@ mean_price_by_neighbourhood <- aggregate(price ~ neighbourhood, merged_data, mea
 merged_data <- merge(merged_data, mean_price_by_neighbourhood, by = "neighbourhood")
 
 # Plot map
-ggmap(map_BCN) +
+m <- ggmap(map_BCN) +
   geom_sf(data = merged_data,
           inherit.aes = FALSE,
-          aes(fill = price.y, label = neighbourhood),
+          aes(fill = price.y, text = neighbourhood),
           color = "#f1796f",
-          linewidth = 0.4) +
-  scale_fill_gradient(low = alpha("white", 0), high = "#f1796f") +
+          linewidth = 0.3) +
+  scale_fill_gradient(low = alpha("white", 0), high = alpha("#f1796f", 0.8)) +
+  theme_minimal() +
   labs(title = "Average price by neighbourhood",
        subtitle = "Barcelona",
        x = "Longitude",
-       y = "Latitude")
+       y = "Latitude") 
+
+plotly_m <- ggplotly(m)
+
+```
+
+``` {r plot10_plotly, echo=FALSE, fig.align='center', fig.height=10, fig.keep='all', fig.width=10}
+
+plotly_m
 
 ```
 
