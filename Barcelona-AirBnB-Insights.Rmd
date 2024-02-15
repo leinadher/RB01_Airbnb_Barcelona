@@ -446,7 +446,7 @@ ggplot(data_grouped_with_population, aes(x = reorder(neighbourhood_group, propor
 
 The data presented in this bar graph serves as an insightful complement to the previous visualization. By comparing the number of listings in each neighbourhood group with the official demographics corresponding to that district, a proportion of Airbnb listings per person can be obtained. This better reflects the different densities of listings between parts of the city. Although *Eixample* and *Ciutat Vella* still reign as the most listing-saturated districts, the higher concentration of *Ciutat Vella* compared to *Eixample* becomes obvious. This is explained by many factors, such as the higher urban density of the Old City and the resulting higher concentration of population by area, and also *Eixample* being a rather large district within Barcelona. Similar observations can be made between the other neighbourhood groups.
 
-According to the [Government of Catalonia](https://web.gencat.cat/es/actualitat/detall/Regulacio-de-pisos-turistics-per-garantir-lacces-a-lhabitatge), areas with more than 5 tourist housing listings per 100 inhabitants face housing access issues. A recent Decree Law has set this limit to address the problem, with city councils having the authority to permit up to 10 through their urban planning. It's important to note that our study focuses exclusively on Airbnb listings, and other units may be legally listed as tourist accommodations on different platforms.
+According to the [Government of Catalonia](https://web.gencat.cat/es/actualitat/detall/Regulacio-de-pisos-turistics-per-garantir-lacces-a-lhabitatge), areas with more than 5 tourist housing listings per 100 inhabitants face housing access issues. A recent Decree Law has set this limit to address the problem, with city councils having the authority to permit up to 10 through their urban planning. It is important to note that our study focuses exclusively on Airbnb listings, and other units may be legally listed as tourist accommodations on different platforms.
 
 ---
 
@@ -578,7 +578,7 @@ ggplot(tenant_count,
 
 ```
 
-This chart contrasts two categories of landlords: `Small tenant` and `Large tenant`, based on the `Number of listings` they possess. The category `Small tenant` outnumbers `Large tenant owned`, indicating a slightly higher prevalence of landlords with fewer properties.
+This chart contrasts two categories of landlords: `Small tenant` and `Large tenant`, based on the number of listings they possess. The category `Small tenant` outnumbers `Large tenant`, indicating a slightly higher prevalence of landlords with fewer properties.
 
 Given the context of rental tension zones, equality of small and  tenants may suggest a rental market with a concentrated number of players, potentially increasing the likelihood of monopolistic behavior affecting rental prices. However, the [recent legislation](https://www.boe.es/buscar/act.php?id=BOE-A-2023-12203) changed the definition of a large property owner from 10 to 5 properties. This meant that several former small tenants now qualify as large tenants, potentially altering the market dynamics and affecting the application of policies within stressed areas.
 
