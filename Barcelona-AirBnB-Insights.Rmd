@@ -141,6 +141,7 @@ library(stringr)
 library(corrplot)
 library(reshape2)
 library(readxl)
+library(gridExtra)
 
 # For maps:
 library(sf)
@@ -275,15 +276,6 @@ By considering the variable `calculated_host_listings_count` and referencing the
 
 ################################################################################
 
-# FILTER OUT WRONG OUTLIERS
-# Specifically, a listing valued at about €60,000 per night,
-# which is missing other information fields, and distorts further plots.
-# This was a team-agreed decision to provide cleaner results.
-
-Barcelona_md <- filter(Barcelona_md, price < 20000)
-
-################################################################################
-
 # EXTRACT STAR-RATING FROM NAME, AND ADD AS COLUMN TO DATA FRAME
 
 extract_star_rating <- function(name) {
@@ -322,6 +314,31 @@ Barcelona_md <- Barcelona_md %>%
 
 # View the first few rows of the transformed dataset to verify the changes
 head(Barcelona_md)
+
+################################################################################
+
+# HOST COUNT: LARGE TENANTS AND SMALL TENANTS
+
+# Create a new data frame named tenants
+tenants <- Barcelona_md %>%
+  group_by(host_id) %>%
+  summarise(listing_count = n())
+
+tenants <- tenants %>%
+  mutate(TenantSizeGrouping = case_when(
+    listing_count >= 5 ~ "Large tenant",
+    listing_count <= 4 ~ "Small tenant",
+    TRUE ~ NA_character_ # This handles any unexpected cases, such as missing values
+  ))
+
+################################################################################
+
+# FILTER OUT WRONG OUTLIERS
+# Specifically, a listing valued at about €60,000 per night,
+# which is missing other information fields, and distorts further plots.
+# This was a team-agreed decision to provide cleaner results.
+
+Barcelona_md <- filter(Barcelona_md, is.na(price) | price < 50000)
 
 ################################################################################
 
@@ -553,42 +570,63 @@ This visualization provides a rough insight into the licensing status of listing
 
 #### 2.3.7. Large vs. small tenants
 
-```{r plot7, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=3, fig.align='center'}
+```{r plot7, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=6, fig.align='center'}
 
-tenant_count <- Barcelona_md %>%
+tenant_count <- tenants %>%
   group_by(TenantSizeGrouping) %>%
-  summarise(quantity = n())
+  summarise(listing_count = n())
 
-# Create the bar plot
-ggplot(tenant_count, 
-       aes(x = reorder(TenantSizeGrouping, quantity), 
-           y = quantity, 
-           fill = 'red')) +
+# Host numbers: great vs. small tenants
+plotA <- ggplot(tenant_count, 
+       aes(x = TenantSizeGrouping, 
+           y = listing_count, 
+           fill = "red")) +
   geom_bar(stat = "identity") +
   labs(x = "",
-       y = "Count", 
-       title = "Large vs. small tenants",
+       y = "Host count", 
+       title = "Large vs. small tenants - Host count",
        subtitle = "Barcelona") +
-  geom_text(aes(label = quantity), 
+  geom_text(aes(label = listing_count), 
             hjust = 0, 
             size = 3) +
   theme_minimal() +
   coord_flip() + # Flip the plot to horizontal bars
   guides(fill = FALSE)  # Remove the legend
 
+# Listing numbers: great vs. small tenants
+
+tenant_count <- Barcelona_md %>%
+  group_by(TenantSizeGrouping) %>%
+  summarise(quantity = n())
+
+
+plotB <- ggplot(tenant_count, 
+       aes(x = TenantSizeGrouping, 
+           y = quantity, 
+           fill = 'red')) +
+  geom_bar(stat = "identity") +
+  labs(x = "",
+       y = "Listing Count", 
+       title = "Large vs. small tenants - Listing count",
+       subtitle = "Barcelona") +
+  geom_text(aes(label = quantity),
+            hjust = 0, 
+            size = 3) +
+  theme_minimal() +
+  coord_flip() + # Flip the plot to horizontal bars
+  guides(fill = FALSE)  # Remove the legend
+
+grid.arrange(plotA, plotB, ncol = 1)
+
 ```
 
-This chart contrasts two categories of landlords: `Small tenant` and `Large tenant`, based on the number of listings they possess. The category `Small tenant` outnumbers `Large tenant`, indicating a slightly higher prevalence of landlords with fewer properties.
+This set of charts looks at two host categories: `Small tenant` and `Large tenant`, based on the number of listings they possess. Given the context of rental tension zones, a [recent legislation](https://www.boe.es/buscar/act.php?id=BOE-A-2023-12203) changed the definition of a large property owner from 10 to 5 properties. This meant that several former small tenants now qualify as large tenants, potentially altering the market dynamics and affecting the application of policies within stressed areas.
 
-Given the context of rental tension zones, equality of small and  tenants may suggest a rental market with a concentrated number of players, potentially increasing the likelihood of monopolistic behavior affecting rental prices. However, the [recent legislation](https://www.boe.es/buscar/act.php?id=BOE-A-2023-12203) changed the definition of a large property owner from 10 to 5 properties. This meant that several former small tenants now qualify as large tenants, potentially altering the market dynamics and affecting the application of policies within stressed areas.
+In the first plot, the count of `Small tenant` vastly outnumbers `Large tenant`, indicating a much higher proportion of landlords with fewer properties. This however is reflected otherwise when looking at the overall `Listing count` in the second plot, which shows a very close match between number of listings that are registered by `Small tenant` and `Large tenant`.
 
-The number of listings from small tenants is over 9,000, a substantial figure that indicates the scale of their presence in the market. Large tenants listings, with a count above 8,000, although less than small tenants, represent a significant portion of the market as well. The data indicates that both small and large tenants play important roles in the housing ecosystem of Barcelona.
+From this observation we can conclude that, although much fewer in number, large tenants represent the majority of the overall market. It is also worth noting that the presence of more small tenants could reflect a diverse range of property offerings, from single rooms to entire apartments, which may cater to different segments of the population. This might have a stabilizing effect on rental prices, as a diverse supply can meet varied demand. However, if small tenants begin to consolidate or if their listings push housing costs above the 30% income threshold, it could lead to increased regulatory scrutiny.
 
 Regarding the law's stipulations, if the large tenants' listings are concentrated in areas where housing costs exceed 30% of household income or where rental prices have outpaced CPI by more than 3 percentage points, these areas could be designated as rental tension zones. This would trigger regulatory measures that could include rent capping or other controls to protect tenants.
-
-It's also worth noting that the presence of more small tenants could reflect a diverse range of property offerings, from single rooms to entire apartments, which may cater to different segments of the population. This might have a stabilizing effect on rental prices, as a diverse supply can meet varied demand. However, if small tenants begin to consolidate or if their listings push housing costs above the 30% income threshold, it could lead to increased regulatory scrutiny.
-
-In conclusion, this chart suggests a competitive rental market in Barcelona, with a predominance of small tenants. With legislative changes, the landscape could shift, potentially impacting rent levels, housing availability, and the designation of rental tension zones. Stakeholders, including policymakers and market participants, would need to monitor these dynamics closely to understand the full implications of the law on the rental market.
 
 ---
 
@@ -598,8 +636,8 @@ In conclusion, this chart suggests a competitive rental market in Barcelona, wit
 
 listings_per_host <- Barcelona_md %>%
   group_by(host_id) %>%
-  summarize(count = n()) %>%
-  ungroup()
+  summarize(count = n(), .groups = 'drop') %>%
+  filter(!is.na(host_id))
 
 # Group all counts of 10 or more into '10+'
 listings_per_host$count_grouped <- ifelse(listings_per_host$count > 10,
@@ -625,6 +663,10 @@ ggplot(listings_per_host, aes(x = count_grouped)) +
 
 ```
 
+The above plot illustrates another defining observation, by sorting all Airbnb hosts according to the number of listings they have registered on the platform. Represented in the variable `Number of hosts`, out of a total of 7,015 hosts, an overwhelming majority is responsible for only one listing, with a quick decrease in number as the `Listing count` increases
+
+It becomes obvious that the market is overwhelmingly populated by 1-property hosts, suggesting a high level of competitiveness and relatively low monopoly of the market
+
 ---
 
 #### 2.3.9. Top 5 hosts by number of listings
@@ -645,7 +687,7 @@ ggplot(top_hosts, aes(x = reorder(host_name, calculated_host_listings_count),
             hjust = 0, 
             color = "black",
             size = 3) +
-  labs(title = "Top 5 Hosts by number of listings",
+  labs(title = "Top 5 hosts by number of listings",
        subtitle = "Barcelona",
        x = "",
        y = "Listing count") +
@@ -672,20 +714,14 @@ m <- ggmap(map_BCN) +
           aes(fill = price.y, text = neighbourhood),
           color = "#f1796f",
           linewidth = 0.3) +
-  scale_fill_gradient(low = alpha("white", 0), high = alpha("#f1796f", 0.8)) +
+  scale_fill_gradient(low = alpha("white", 0), high = alpha("#f1796f", 1)) +
   theme_minimal() +
   labs(title = "Average price by neighbourhood",
        subtitle = "Barcelona",
        x = "Longitude",
        y = "Latitude") 
 
-plotly_m <- ggplotly(m)
-
-```
-
-``` {r plot10_plotly, echo=FALSE, fig.align='center', fig.height=10, fig.keep='all', fig.width=10}
-
-plotly_m
+m
 
 ```
 
@@ -845,3 +881,36 @@ ggplot(Barcelona_md, aes(x = star_rating, y = price)) +
   theme_minimal()
 
 ```
+
+---
+
+## 3. Additional chapter
+
+Explain the use of API connection to retrieve the Ope
+Explain the use of library(gridExtra) for dividing the ggplot2 layout
+Also, explain how the following libraries were at some point loaded as we were experimenting and producing plots, but were discarded due to complications.
+
+library(plotly)
+library(RColorBrewer)
+library(jsonlite)
+library(reshape2)
+library(leaflet)
+library(tidyterra)   
+
+Specifically plotly was considered for making interactive maps, but combined with the large-sized map tiles, resulted in laggy and heavy HTML files, and were decided to be discarded for regular PNG images.
+
+---
+
+## 4. Conclusion
+
+WRITE A CONCLUSION!
+
+---
+
+## 5. Appendix
+
+### 5.1. Experiences using generative AI tools
+
+Understanding that generative AI tools are here to stay as an invaluable companion of present-day and future programmers, we implemented them as a support and proof-checking tool, easily accelerating our productivity several times over. We observed that while quick in generating syntactically correct R code, it still requires the user to have a correct grasp of the packages being used and general R workflows. Without accurate prompts or careful interpretation of the outputs, AI remains unable to comprehend the full context of the project and address every single question adequately. Fine tuning results and providing additional context of the structure of the data sets turned out to be an essential step in our AI-powered workflow.
+
+We employed ChatGPT versions 3.5 and 4, with the latter incorporating a Data Analyst functionality. This feature was capable amongst other things of interpreting screenshots of sample plot types and returning the corresponding ggplot2 code, or processing the source data in csv format for a better understanding of its structure, its variable names, data types, etc. One noteworthy application was in constructing correct regex patterns, which we would easily be able to express in natural language, but would require more knowledge and time to be written and tested manually. It is worth noting that the AI-generated code suggestions consistently aligned with our knowledge of R packages as well as the scope of the course. They not only facilitated the exploration of solutions but also prompted consideration of additional settings for certain functions that we might have overlooked initially.
