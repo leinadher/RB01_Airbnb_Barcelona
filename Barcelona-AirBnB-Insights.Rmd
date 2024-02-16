@@ -886,18 +886,15 @@ ggplot(Barcelona_md, aes(x = star_rating, y = price)) +
 
 ## 3. Additional chapter
 
-Explain the use of API connection to retrieve the Ope
-Explain the use of library(gridExtra) for dividing the ggplot2 layout
-Also, explain how the following libraries were at some point loaded as we were experimenting and producing plots, but were discarded due to complications.
+An additional segment of the project worthy of mention are the alternative workflows and R packages that we explored, discarded or eventually implemented into our work.
 
-library(plotly)
-library(RColorBrewer)
-library(jsonlite)
-library(reshape2)
-library(leaflet)
-library(tidyterra)   
+One notable case was opur strategy for accessing the Open Data BCN demographics data set, which relied on the Barcelona City Council's API. We opted for this path with the sole purpose of exploring alternative data loading workflows, despite the straightforward alternative of downloading and loading the `2023_pad_mdbas_sexe.csv` file from the website being more easily available.
 
-Specifically plotly was considered for making interactive maps, but combined with the large-sized map tiles, resulted in laggy and heavy HTML files, and were decided to be discarded for regular PNG images.
+Amongst other libraries that weren't covered during the Bootcamp, we incorporated the `gridExtra` library to manipulate the `ggplot2` layout, allowing for efficient division and arrangement of layouts to optimize visualization.
+
+We also experimented with various libraries, which can be seen loaded yet unused in the R code, such as `plotly`, `RColorBrewer`, `jsonlite`, `reshape2`, `leaflet`, and `tidyterra.` However, practical challenges prompted the exclusion of certain libraries. A notable case is the implementation of `plotly` for interactive map creation, which proved problematic when confronted with large-sized map tiles, resulting in performance issues and unwieldy HTML file sizes. Consequently, a decision was made to shift to conventional PNG images to mitigate these challenges and ensure a more and resource-efficient workflow. This iterative process underscores the importance of a judicious and technically sound approach to library selection and implementation in data visualization workflows.
+
+As a secondary additional chapter of the project we opted for a GitHub-based workflow, which was a new experience for both of us. This allowed us to collaborate simultaneously from different devices, and ensure the reproducibility of the code, whilst keeping track of changes and version updates.
 
 ---
 
