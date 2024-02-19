@@ -142,6 +142,7 @@ library(corrplot)
 library(reshape2)
 library(readxl)
 library(gridExtra)
+library(stringr)    ## to modify strings
 
 # For maps:
 library(sf)
@@ -709,8 +710,11 @@ To provide further insight into the host number and listing count disparity, by 
 mean_price_by_neighbourhood <- aggregate(price ~ neighbourhood, merged_data, mean)
 merged_data <- merge(merged_data, mean_price_by_neighbourhood, by = "neighbourhood")
 
+# Add abbreviated neighbourhood name
+geojson_BCN$abbrev_neighbourhood <- str_trunc(geojson_BCN$neighbourhood,
+                                             width = 18)
+
 # Extract centroids to plot labels of neighbourhoods
-# Note:
 geojson_BCN_centroids <- st_point_on_surface(geojson_BCN)
 geojson_BCN$lon <- st_coordinates(geojson_BCN_centroids)[, "X"]
 geojson_BCN$lat <- st_coordinates(geojson_BCN_centroids)[, "Y"]
@@ -722,10 +726,10 @@ m <- ggmap(map_BCN) +
           aes(fill = price.y, text = neighbourhood),
           color = "#f1796f",
           linewidth = 0.3,
-          size = 2.5) +
+          size = 3) +
 # POLYGON LABELS with repel to avoid overlap
   geom_label_repel(data = geojson_BCN,
-                aes(label = neighbourhood),
+                aes(label = abbrev_neighbourhood),
                 size = 3,
                 color = "black",
                 box.padding = 0.5,
