@@ -561,21 +561,104 @@ to capture this observation.
 \hypertarget{visualizations}{%
 \subsubsection{2.3. Visualizations}\label{visualizations}}
 
-\hypertarget{room-type-count}{%
-\paragraph{2.3.1. Room type count}\label{room-type-count}}
+\hypertarget{airbnb-listings-map-overview}{%
+\paragraph{2.3.1. Airbnb listings map
+overview}\label{airbnb-listings-map-overview}}
 
 \begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot1-1} \end{center}
+
+A straightforward visualization of the dataset's listings already
+reveals diverse concentrations, aligning with popular tourist and
+overnight stay destinations in Barcelona. The primary cluster is
+situated in the expansive neighborhood of \emph{Eixample} and
+\emph{Ciutat Vella}, along with \emph{Gràcia}, and the vicinity
+encompassing the main train station of \emph{Sants} and \emph{Montjuïc}.
+The density significantly diminishes beyond these central regions. It is
+essential to acknowledge that the recorded data corresponds to the
+official district divisions of Barcelona, delineated by their
+boundaries. It is plausible that additional clusters of listings may
+exist outside these demarcations. For instance, areas like the proximity
+of the airport in the southwestern town of \emph{El Prat de Llobregat}
+might host distinct clusters. Incorporating such regions into future
+studies could uncover valuable insights in this regard.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{airbnb-listings-by-neighbourhood-group}{%
+\paragraph{2.3.2. Airbnb listings by neighbourhood
+group}\label{airbnb-listings-by-neighbourhood-group}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot2-1} \end{center}
+
+This bar chart illustrates the number of Airbnb listings across
+different neighbourhoods in Barcelona. The most prominent feature is the
+overwhelming dominance of the \emph{Eixample} neighbourhood, with the
+number of listings towering over other areas. This suggests
+\emph{Eixample} is a highly sought-after area for tourists or visitors
+using Airbnb. In contrast, neighbourhoods like \emph{Nou Barris} and
+\emph{Sant Andreu} have far fewer listings, which may indicate less
+tourist activity or a lower availability of rental properties on Airbnb.
+
+The distribution indicates a potential disparity in the spread of
+tourism across the city, with certain areas possibly facing higher
+pressure from tourist accommodation. It is very interesting to note that
+only considering \emph{Eixample} the number of listings is greater than
+the sum of the last six neighborhoods. This could have implications for
+local housing markets, infrastructure demand, and urban planning. The
+chart effectively highlights the disparities and could serve as a basis
+for more detailed analysis on the impact of short-term rentals on the
+urban landscape of Barcelona. As mentioned, there are several areas that
+do not reach a few hundred listings, which indicates a very low
+concentration of Airbnbs in relation to the people who reside there.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{airbnb-listings-per-100-residents-by-neighbourhood-group}{%
+\paragraph{2.3.3. Airbnb listings per 100 residents by neighbourhood
+group}\label{airbnb-listings-per-100-residents-by-neighbourhood-group}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot3-1} \end{center}
+
+The data presented in this bar graph serves as an insightful complement
+to the previous visualization. By comparing the number of listings in
+each neighbourhood group with the official demographics corresponding to
+that district, a proportion of Airbnb listings per person can be
+obtained. This better reflects the different densities of listings
+between parts of the city. Although \emph{Eixample} and \emph{Ciutat
+Vella} still reign as the most listing-saturated districts, the higher
+concentration of \emph{Ciutat Vella} compared to \emph{Eixample} becomes
+obvious. This is explained by many factors, such as the higher urban
+density of the Old City and the resulting higher concentration of
+population by area, and also \emph{Eixample} being a rather large
+district within Barcelona. Similar observations can be made between the
+other neighbourhood groups.
+
+According to the
+\href{https://web.gencat.cat/es/actualitat/detall/Regulacio-de-pisos-turistics-per-garantir-lacces-a-lhabitatge}{Government
+of Catalonia}, areas with more than 5 tourist housing listings per 100
+inhabitants face housing access issues. A recent Decree Law has set this
+limit to address the problem, with city councils having the authority to
+permit up to 10 through their urban planning. It is important to note
+that our study focuses exclusively on Airbnb listings, and other units
+may be legally listed as tourist accommodations on different platforms.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{room-type-count}{%
+\paragraph{2.3.4. Room type count}\label{room-type-count}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot4-1} \end{center}
 
 There are four categories of room types displayed:
 \texttt{Entire\ home/apt}, \texttt{Private\ room},
 \texttt{Shared\ room}, and \texttt{Hotel\ room}.
 
-The \texttt{Entire\ home/apt} category has the highest count,
-approaching the 10,000 mark, suggesting that entire apartments or homes
-are the most common type of property listed in Barcelona. The
-\texttt{Private\ room} category follows, with roughly half as many
-listings as entire homes, indicating a significant presence in the
-market but less than the full property rentals.
+The \texttt{Entire\ home/apt} category has the highest count, surpassing
+the 10,000 mark, suggesting that entire apartments or homes are the most
+common type of property listed in Barcelona. The \texttt{Private\ room}
+category follows, with roughly half as many listings as entire homes,
+indicating a significant presence in the market but less than the full
+property rentals.
 
 \texttt{Shared\ rooms} and \texttt{Hotel\ rooms} have significantly
 fewer listings compared to the other two categories. Shared rooms barely
@@ -592,78 +675,9 @@ regulations within the city.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\hypertarget{correlation-of-numerical-values}{%
-\paragraph{2.3.2. Correlation of numerical
-values}\label{correlation-of-numerical-values}}
-
-\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot2-1} \end{center}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{license-status-1}{%
-\paragraph{2.3.3. License status}\label{license-status-1}}
-
-\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot3-1} \end{center}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{large-vs.-small-tenants}{%
-\paragraph{2.3.4. Large vs.~small
-tenants}\label{large-vs.-small-tenants}}
-
-\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot4-1} \end{center}
-
-This chart contrasts two categories of landlords: \texttt{Small\ tenant}
-and \texttt{Large\ tenant}, based on the \texttt{Number\ of\ listings}
-they possess. The category \texttt{Small\ tenant} outnumbers
-\texttt{Large\ tenant\ owned}, indicating a slightly higher prevalence
-of landlords with fewer properties.
-
-Given the context of rental tension zones, equality of small and tenants
-may suggest a rental market with a concentrated number of players,
-potentially increasing the likelihood of monopolistic behavior affecting
-rental prices. However, the
-\href{https://www.boe.es/buscar/act.php?id=BOE-A-2023-12203}{recent
-legislation} changed the definition of a large property owner from 10 to
-5 properties. This meant that several former small tenants now qualify
-as large tenants, potentially altering the market dynamics and affecting
-the application of policies within stressed areas.
-
-The number of listings from small tenants is over 9,000, a substantial
-figure that indicates the scale of their presence in the market. Large
-tenants listings, with a count above 8,000, although less than small
-tenants, represent a significant portion of the market as well. The data
-indicates that both small and large tenants play important roles in the
-housing ecosystem of Barcelona.
-
-Regarding the law's stipulations, if the large tenants' listings are
-concentrated in areas where housing costs exceed 30\% of household
-income or where rental prices have outpaced CPI by more than 3
-percentage points, these areas could be designated as rental tension
-zones. This would trigger regulatory measures that could include rent
-capping or other controls to protect tenants.
-
-It's also worth noting that the presence of more small tenants could
-reflect a diverse range of property offerings, from single rooms to
-entire apartments, which may cater to different segments of the
-population. This might have a stabilizing effect on rental prices, as a
-diverse supply can meet varied demand. However, if small tenants begin
-to consolidate or if their listings push housing costs above the 30\%
-income threshold, it could lead to increased regulatory scrutiny.
-
-In conclusion, this chart suggests a competitive rental market in
-Barcelona, with a predominance of small tenants. With legislative
-changes, the landscape could shift, potentially impacting rent levels,
-housing availability, and the designation of rental tension zones.
-Stakeholders, including policymakers and market participants, would need
-to monitor these dynamics closely to understand the full implications of
-the law on the rental market.
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{room-type-by-neighbourhood}{%
-\paragraph{2.3.5. Room type by
-neighbourhood}\label{room-type-by-neighbourhood}}
+\hypertarget{acommodation-type-by-neighbourhood-group}{%
+\paragraph{2.3.5. Acommodation type by neighbourhood
+group}\label{acommodation-type-by-neighbourhood-group}}
 
 \begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot5-1} \end{center}
 
@@ -723,70 +737,347 @@ to balance the needs of residents and visitors.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\hypertarget{average-price-by-neighbourhood}{%
-\paragraph{2.3.6. Average price by
-neighbourhood}\label{average-price-by-neighbourhood}}
+\hypertarget{license-status-1}{%
+\paragraph{2.3.6. License status}\label{license-status-1}}
 
 \begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot6-1} \end{center}
+
+This visualization provides a rough insight into the licensing status of
+listings. According to the law, full-home listings require a
+registration and a license number. Instances under the
+\texttt{License\ not\ displayed} group may either be listed illegally or
+have their license approval pending. \texttt{Exempt} could mean a
+listing only includes part of a housing unit or a room, and thus does
+not have to be legally registered as full touristic housing. It would be
+valuable to observe the evolution of the \texttt{License\ is\ displayed}
+group over time, to evaluate whether the city's efforts to regulate
+touristic housing have any effectiveness.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{large-vs.-small-tenants}{%
+\paragraph{2.3.7. Large vs.~small
+tenants}\label{large-vs.-small-tenants}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot7-1} \end{center}
+
+This set of charts looks at two host categories: \texttt{Small\ tenant}
+and \texttt{Large\ tenant}, based on the number of listings they
+possess. Given the context of rental tension zones, a
+\href{https://www.boe.es/buscar/act.php?id=BOE-A-2023-12203}{recent
+legislation} changed the definition of a large property owner from 10 to
+5 properties. This meant that several former small tenants now qualify
+as large tenants, potentially altering the market dynamics and affecting
+the application of policies within stressed areas.
+
+In the first plot, the count of \texttt{Small\ tenant} vastly outnumbers
+\texttt{Large\ tenant}, indicating a much higher proportion of landlords
+with fewer properties. This however is reflected otherwise when looking
+at the overall \texttt{Listing\ count} in the second plot, which shows a
+very close match between number of listings that are registered by
+\texttt{Small\ tenant} and \texttt{Large\ tenant}.
+
+From this observation we can conclude that, although much fewer in
+number, large tenants represent the majority of the overall market. It
+is also worth noting that the presence of more small tenants could
+reflect a diverse range of property offerings, from single rooms to
+entire apartments, which may cater to different segments of the
+population. This might have a stabilizing effect on rental prices, as a
+diverse supply can meet varied demand. However, if small tenants begin
+to consolidate or if their listings push housing costs above the 30\%
+income threshold, it could lead to increased regulatory scrutiny.
+
+Regarding the law's stipulations, if the large tenants' listings are
+concentrated in areas where housing costs exceed 30\% of household
+income or where rental prices have outpaced CPI by more than 3
+percentage points, these areas could be designated as rental tension
+zones. This would trigger regulatory measures that could include rent
+capping or other controls to protect tenants.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{number-of-hosts-per-listing-count}{%
+\paragraph{2.3.8. Number of hosts per listing
+count}\label{number-of-hosts-per-listing-count}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot8-1} \end{center}
+
+The above plot illustrates another defining observation, by sorting all
+Airbnb hosts according to the number of listings they have registered on
+the platform. Represented in the variable \texttt{Number\ of\ hosts},
+out of a total of 7,015 hosts, an overwhelming majority is responsible
+for only one listing, with a quick decrease in number as the
+\texttt{Listing\ count} increases
+
+It becomes obvious that the market is overwhelmingly populated by
+1-property hosts, suggesting a high level of competitiveness and
+relatively low monopoly of the market
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{top-5-hosts-by-number-of-listings}{%
+\paragraph{2.3.9. Top 5 hosts by number of
+listings}\label{top-5-hosts-by-number-of-listings}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot9-1} \end{center}
+
+To provide further insight into the host number and listing count
+disparity, by querying through unique items of \texttt{host\_id}, and
+sorting based on \texttt{calculated\_host\_listings\_count} we can
+obtain the 5 top hosts by number of listings. A brief look at the graph
+reveals that each of the five entities is accountable for a
+significantly greater number of properties than what is deemed as
+characteristic of large tenants according to the law. Also, the
+assumption could be made that the names reflect that such hosts are not
+actual individual human users of the platform, but rather companies or
+trusts, which operate large touristic housing rental businesses across
+Barcelona.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{average-price-by-neighbourhood}{%
+\paragraph{2.3.10. Average price by
+neighbourhood}\label{average-price-by-neighbourhood}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot10-1} \end{center}
+
+The map above illustrates the districts of Barcelona (the 71 divisions
+designated by the City Council), with colors representing a gradient
+based on the average price of Airbnb listings in each area. The average
+prices range from approximately €50 to €250, revealing a general trend
+of decreasing prices in neighborhoods farther from the center and
+popular districts, with a subtle decline from south to north. However,
+this pattern is disrupted by stark outliers, notably in the
+neighborhoods of \emph{Sant Gervasi - la Bonanova} and \emph{la
+Maternitat i Sant Ramon}. These anomalies can be attributed to a few
+exclusive listings in the vicinity of €10,000 per night. The reason for
+these extremes may be the unique nature of these listings as highly
+exclusive overnight units, such as villas or large fully furnished
+houses, or also potential data quality issues. As this report focuses
+solely on observations, a more in-depth analysis of these factors would
+be suitable for a future iteration of the study.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{price-by-neighbourhood-group}{%
+\paragraph{2.3.11. Price by neighbourhood
+group}\label{price-by-neighbourhood-group}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot11-1} \end{center}
+
+This plot provides some further insight into the distribution of the
+\texttt{price} variable that is not conveyed in the previous map plot.
+The \texttt{price} of listings is represented as points on a scatter
+plot, and clustered by \texttt{neighbourhood\_group} in order to reflect
+the actual variation of values, and locate the \emph{center} of the
+distributions. Because most listings' \texttt{price} values are located
+around the €100 range (median is €87), the items with much higher
+pricing significantly skew the plot. Thus, in order to improve the
+readability of the \emph{median region}, the scale has been adjusted to
+be logarithmic. The additional violin plot lines provide more
+information about the distribution and location of medians.
+
+Corroborating observations from previous graphs, the majority of
+listings is seen to concentrate in the \emph{Ciutat Vella} and
+\emph{Eixample} districts, with the latter containing the highest
+median, as well as highest listing count, of all districts. On the other
+hand, the furthest-located districts of \emph{Nou Barris} and \emph{Sant
+Andreu} are seen to contain the least and overall lowest-priced listings
+of the city.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{price-boxplots-by-neighbourhood-group}{%
+\paragraph{2.3.12. Price boxplots by neighbourhood
+group}\label{price-boxplots-by-neighbourhood-group}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot12-1} \end{center}
+
+The previous plot could be summarized in the above boxplot, which
+locates the quartiles and medians for the \texttt{price} variable in
+each neighbourhood group. As an example, the following are the medians
+from the neighbourhood groups mentioned in the previous plot, which
+represent the lowest and highest extremes in all 10:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{median}\NormalTok{(Barcelona\_md}\SpecialCharTok{$}\NormalTok{price[Barcelona\_md}\SpecialCharTok{$}\NormalTok{neighbourhood\_group }\SpecialCharTok{==} \StringTok{"Ciutat Vella"}\NormalTok{], }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 69
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{median}\NormalTok{(Barcelona\_md}\SpecialCharTok{$}\NormalTok{price[Barcelona\_md}\SpecialCharTok{$}\NormalTok{neighbourhood\_group }\SpecialCharTok{==} \StringTok{"Eixample"}\NormalTok{], }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 105
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{median}\NormalTok{(Barcelona\_md}\SpecialCharTok{$}\NormalTok{price[Barcelona\_md}\SpecialCharTok{$}\NormalTok{neighbourhood\_group }\SpecialCharTok{==} \StringTok{"Nou Barris"}\NormalTok{], }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 45
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{median}\NormalTok{(Barcelona\_md}\SpecialCharTok{$}\NormalTok{price[Barcelona\_md}\SpecialCharTok{$}\NormalTok{neighbourhood\_group }\SpecialCharTok{==} \StringTok{"Sant Andreu"}\NormalTok{], }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 54
+\end{verbatim}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{listings-by-minimum-nights}{%
-\paragraph{2.3.7. Listings by minimum
+\paragraph{2.3.13. Listings by minimum
 nights}\label{listings-by-minimum-nights}}
-
-\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot7-1} \end{center}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{listings-by-host}{%
-\paragraph{2.3.8. Listings by host}\label{listings-by-host}}
-
-\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot8-1} \end{center}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{price-by-neighbourhood}{%
-\paragraph{2.3.9. Price by neighbourhood}\label{price-by-neighbourhood}}
-
-\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot9-1} \end{center}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{price-by-rating}{%
-\paragraph{2.3.10. Price by rating}\label{price-by-rating}}
-
-\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot10-1} \end{center}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{boxplots-by-price}{%
-\paragraph{2.3.11. Boxplots by price}\label{boxplots-by-price}}
-
-\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot11-1} \end{center}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{boxplots-by-minimum-nights}{%
-\paragraph{2.3.12. Boxplots by minimum
-nights}\label{boxplots-by-minimum-nights}}
-
-\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot12-1} \end{center}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{boxplots-by-number-of-reviews}{%
-\paragraph{2.3.13. Boxplots by number of
-reviews}\label{boxplots-by-number-of-reviews}}
 
 \begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot13-1} \end{center}
 
+This chart examines the distribution of listing counts based on the
+minimum nights required, aiming to illustrate this variable throughout
+the entire dataset. An initial observation can be made that the majority
+of listings require a minimum reservation of one night, followed by a
+rapid decline in frequency until reaching a full week. Further on, a
+significant upsurge in listings happens around the 30-day mark,
+indicating that a substantial cluster of listings entail a minimum stay
+of around a month.
+
+Such findings lend support to the argument that Airbnb serves as a
+portal for an increasingly diverse range of rental types, extending
+beyond the original notion of short-term single-room leases, which were
+the original hallmark of the platform.
+
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\hypertarget{top-hosts-by-number-of-listings}{%
-\paragraph{2.3.14. Top hosts by number of
-listings}\label{top-hosts-by-number-of-listings}}
+\hypertarget{minimum-nights-boxplots-by-neighbourhood-group}{%
+\paragraph{2.3.14. Minimum nights boxplots by neighbourhood
+group}\label{minimum-nights-boxplots-by-neighbourhood-group}}
 
 \begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot14-1} \end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{reviews-boxplots-by-neighbourhood-group}{%
+\paragraph{2.3.15. Reviews boxplots by neighbourhood
+group}\label{reviews-boxplots-by-neighbourhood-group}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot15-1} \end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{correlation-of-numerical-values}{%
+\paragraph{2.3.16. Correlation of numerical
+values}\label{correlation-of-numerical-values}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot16-1} \end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{price-by-star-rating}{%
+\paragraph{2.3.17. Price by star rating}\label{price-by-star-rating}}
+
+\begin{center}\includegraphics{Barcelona-AirBnB-Insights_files/figure-latex/plot17-1} \end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{additional-chapter}{%
+\subsection{3. Additional chapter}\label{additional-chapter}}
+
+An additional segment of the project worthy of mention are the
+alternative workflows and R packages that we explored, discarded or
+eventually implemented into our work.
+
+One notable case was opur strategy for accessing the Open Data BCN
+demographics data set, which relied on the Barcelona City Council's API.
+We opted for this path with the sole purpose of exploring alternative
+data loading workflows, despite the straightforward alternative of
+downloading and loading the \texttt{2023\_pad\_mdbas\_sexe.csv} file
+from the website being more easily available.
+
+Among other libraries that weren't covered during the Bootcamp, we
+incorporated the \texttt{gridExtra} library to manipulate the
+\texttt{ggplot2} layout, allowing for efficient division and arrangement
+of layouts to optimize visualization.
+
+For the `Average price by neighbourhood' plot (number 10), the package
+\texttt{ggrepel} was tested and loaded in order to position the labels
+for the neighbourhood polygons in such a way that they could be easily
+readable.
+
+We also experimented with various libraries, which can be seen loaded
+yet unused in the R code, such as \texttt{plotly},
+\texttt{RColorBrewer}, \texttt{jsonlite}, \texttt{reshape2},
+\texttt{leaflet}, and \texttt{tidyterra.} However, practical challenges
+prompted the exclusion of certain libraries from the final RMarkdown
+report. A notable case was the implementation of \texttt{plotly} for
+interactive map creation, which proved problematic when confronted with
+large-sized map tiles, resulting in performance issues and unwieldy HTML
+file sizes. Consequently, a decision was made to shift to conventional
+PNG images to mitigate these challenges and ensure a more and
+resource-efficient workflow. This iterative process underscores the
+importance of a cautious and technically sound approach to library
+selection and implementation in data visualization workflows.
+
+As a secondary additional chapter of the project we opted for a
+GitHub-based workflow, which was a new experience for both of us. This
+allowed us to collaborate simultaneously from different devices, and
+ensure the reproducibility of the code, whilst keeping track of changes
+and version updates.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{conclusion}{%
+\subsection{4. Conclusion}\label{conclusion}}
+
+WRITE A CONCLUSION!
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{appendix}{%
+\subsection{5. Appendix}\label{appendix}}
+
+\hypertarget{experiences-using-generative-ai-tools}{%
+\subsubsection{5.1. Experiences using generative AI
+tools}\label{experiences-using-generative-ai-tools}}
+
+Understanding that generative AI tools are here to stay as an invaluable
+companion of present-day and future programmers, we implemented them as
+a support and proof-checking tool, easily accelerating our productivity
+several times over. We observed that while quick in generating
+syntactically correct R code, it still requires the user to have a
+correct grasp of the packages being used and general R workflows.
+Without accurate prompts or careful interpretation of the outputs, AI
+remains unable to comprehend the full context of the project and address
+every single question adequately. Fine tuning results and providing
+additional context of the structure of the data sets turned out to be an
+essential step in our AI-powered workflow.
+
+We employed ChatGPT versions 3.5 and 4, with the latter incorporating a
+Data Analyst functionality. This feature was capable amongst other
+things of interpreting screenshots of sample plot types and returning
+the corresponding ggplot2 code, or processing the source data in csv
+format for a better understanding of its structure, its variable names,
+data types, etc. One noteworthy application was in constructing correct
+regex patterns, which we would easily be able to express in natural
+language, but would require more knowledge and time to be written and
+tested manually. It is worth noting that the AI-generated code
+suggestions consistently aligned with our knowledge of R packages as
+well as the scope of the course. They not only facilitated the
+exploration of solutions but also prompted consideration of additional
+settings for certain functions that we might have overlooked initially.
 
 \end{document}
