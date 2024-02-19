@@ -148,8 +148,9 @@ library(sf)
 library(ggmap)
 library(leaflet)
 library(osmdata)
-library(maptiles)    ## for get_tiles() / used instead of OpenStreetMap
-library(tidyterra)   ## for geom_spatraster_rgb() - Background tiles
+library(maptiles)   ## for get_tiles() / used instead of OpenStreetMap
+library(tidyterra)  ## for geom_spatraster_rgb() - Background tiles
+library(ggrepel)    ## to plot labels which don't overlap
 
 # Set default graphics device to PDF
 options(knitr.graphics.format = "svg")
@@ -355,14 +356,16 @@ Barcelona_md <- filter(Barcelona_md, is.na(price) | price < 50000)
 # Load API key. UPDATE WHEN EXPIRED!
 register_stadiamaps("8df95c0b-0133-4440-b3f0-c1c6e2f26844", write = TRUE)
 
-# Load GeoJSON file and convert to sf object
+# Load GeoJSON file and convert to sf object, merg it with Barcelona_md
 geojson_BCN <- sf::st_read("Data/Barcelona/neighbourhoods.geojson")
+merged_data <- merge(geojson_BCN, 
+                     Barcelona_md,
+                     by = "neighbourhood",
+                     all.x = TRUE)
 
 # Create bounding box limits, map and merge geojson with Barcelona_md
 bbox.limits <- sf::st_bbox(geojson_BCN)
 map_BCN <- get_stadiamap(getbb("Barcelona"), maptype = "stamen_toner_lite", zoom = 13)
-
-merged_data <- merge(geojson_BCN, Barcelona_md, by = "neighbourhood", all.x = TRUE)
 
 # Plot map
 ggmap(map_BCN) +
@@ -706,23 +709,42 @@ To provide further insight into the host number and listing count disparity, by 
 mean_price_by_neighbourhood <- aggregate(price ~ neighbourhood, merged_data, mean)
 merged_data <- merge(merged_data, mean_price_by_neighbourhood, by = "neighbourhood")
 
+# Extract centroids to plot labels of neighbourhoods
+# Note:
+geojson_BCN_centroids <- st_point_on_surface(geojson_BCN)
+geojson_BCN$lon <- st_coordinates(geojson_BCN_centroids)[, "X"]
+geojson_BCN$lat <- st_coordinates(geojson_BCN_centroids)[, "Y"]
+
 # Plot map
 m <- ggmap(map_BCN) +
   geom_sf(data = merged_data,
           inherit.aes = FALSE,
           aes(fill = price.y, text = neighbourhood),
           color = "#f1796f",
-          linewidth = 0.3) +
-  scale_fill_gradient(low = alpha("white", 0), high = alpha("#f1796f", 1)) +
+          linewidth = 0.3,
+          size = 2.5) +
+# POLYGON LABELS with repel to avoid overlap
+  geom_label_repel(data = geojson_BCN,
+                aes(label = neighbourhood),
+                size = 3,
+                color = "black",
+                box.padding = 0.5,
+                point.padding = 0.1,
+                segment.size = 0.2,
+                label.padding = unit(0.15, "lines")) +
+#
+  scale_fill_gradient(low = alpha("white", 1), high = alpha("#f1796f", 1)) +
   theme_minimal() +
   labs(title = "Average price by neighbourhood",
        subtitle = "Barcelona",
        x = "Longitude",
-       y = "Latitude") 
-
+       y = "Latitude",
+       fill = "Average price (€)")
+  
 m
 
 ```
+The map above illustrates the districts of Barcelona (the 71 divisions designated by the City Council), with colors representing a gradient based on the average price of Airbnb listings in each area. The average prices range from approximately €50 to €250, revealing a general trend of decreasing prices in neighborhoods farther from the center and popular districts, with a subtle decline from south to north. However, this pattern is disrupted by stark outliers, notably in the neighborhoods of *Sant Gervasi - la Bonanova* and *la Maternitat i Sant Ramon*. These anomalies can be attributed to a few exclusive listings in the vicinity of €10,000 per night. The reason for these extremes may be the unique nature of these listings as highly exclusive overnight units, such as villas or large fully furnished houses, or also potential data quality issues. As this report focuses solely on observations, a more in-depth analysis of these factors would be suitable for a future iteration of the study.
 
 ---
 
@@ -752,7 +774,7 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
 ```{r plot12, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
 
 ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
-  geom_boxplot(fill = "#c77cff", alpha = 0.4, outlier.color = "#c77cff", color = "#c77cff") +
+  geom_boxplot(fill = "#f1796f", alpha = 0.4, outlier.color = "#f1796f", color = "#f1796f") +
   scale_y_log10() +
   labs(title = "Price boxplots by neighbourhood group",
        subtitle = "Barcelona",
@@ -889,9 +911,11 @@ An additional segment of the project worthy of mention are the alternative workf
 
 One notable case was opur strategy for accessing the Open Data BCN demographics data set, which relied on the Barcelona City Council's API. We opted for this path with the sole purpose of exploring alternative data loading workflows, despite the straightforward alternative of downloading and loading the `2023_pad_mdbas_sexe.csv` file from the website being more easily available.
 
-Amongst other libraries that weren't covered during the Bootcamp, we incorporated the `gridExtra` library to manipulate the `ggplot2` layout, allowing for efficient division and arrangement of layouts to optimize visualization.
+Among other libraries that weren't covered during the Bootcamp, we incorporated the `gridExtra` library to manipulate the `ggplot2` layout, allowing for efficient division and arrangement of layouts to optimize visualization.
 
-We also experimented with various libraries, which can be seen loaded yet unused in the R code, such as `plotly`, `RColorBrewer`, `jsonlite`, `reshape2`, `leaflet`, and `tidyterra.` However, practical challenges prompted the exclusion of certain libraries. A notable case is the implementation of `plotly` for interactive map creation, which proved problematic when confronted with large-sized map tiles, resulting in performance issues and unwieldy HTML file sizes. Consequently, a decision was made to shift to conventional PNG images to mitigate these challenges and ensure a more and resource-efficient workflow. This iterative process underscores the importance of a judicious and technically sound approach to library selection and implementation in data visualization workflows.
+For the 'Average price by neighbourhood' plot (number 10), the package `ggrepel` was tested and loaded in order to position the labels for the neighbourhood polygons in such a way that they could be easily readable.
+
+We also experimented with various libraries, which can be seen loaded yet unused in the R code, such as `plotly`, `RColorBrewer`, `jsonlite`, `reshape2`, `leaflet`, and `tidyterra.` However, practical challenges prompted the exclusion of certain libraries from the final RMarkdown report. A notable case was the implementation of `plotly` for interactive map creation, which proved problematic when confronted with large-sized map tiles, resulting in performance issues and unwieldy HTML file sizes. Consequently, a decision was made to shift to conventional PNG images to mitigate these challenges and ensure a more and resource-efficient workflow. This iterative process underscores the importance of a cautious and technically sound approach to library selection and implementation in data visualization workflows.
 
 As a secondary additional chapter of the project we opted for a GitHub-based workflow, which was a new experience for both of us. This allowed us to collaborate simultaneously from different devices, and ensure the reproducibility of the code, whilst keeping track of changes and version updates.
 
