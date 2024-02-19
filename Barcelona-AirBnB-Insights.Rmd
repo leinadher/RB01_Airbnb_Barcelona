@@ -767,6 +767,10 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
 
 ```
 
+This plot provides some further insight into the distribution of the `price` variable that is not conveyed in the previous map plot. The `price` of listings is represented as points on a scatter plot, and clustered by `neighbourhood_group` in order to reflect the actual variation of values, and locate the *center* of the distributions. Because most listings' `price` values are located around the €100 range (median is €87), the items with much higher pricing significantly skew the plot. Thus, in order to improve the readability of the *median region*, the scale has been adjusted to be logarithmic. The additional violin plot lines provide more information about the distribution and location of medians.
+
+Corroborating observations from previous graphs, the majority of listings is seen to concentrate in the *Ciutat Vella* and *Eixample* districts, with the latter containing the highest median, as well as highest listing count, of all districts. On the other hand, the furthest-located districts of *Nou Barris* and *Sant Andreu* are seen to contain the least and overall lowest-priced listings of the city. 
+
 ---
 
 #### 2.3.12. Price boxplots by neighbourhood group
@@ -775,7 +779,9 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
 
 ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
   geom_boxplot(fill = "#f1796f", alpha = 0.4, outlier.color = "#f1796f", color = "#f1796f") +
-  scale_y_log10() +
+  scale_y_continuous(trans = "log10", 
+                     breaks = c(1, 5, 10, 50, 100, 500, 1000, 5000, 10000),
+                     labels = c("1", "5", "10", "50", "100", "500", "1000", "5000", "10000")) +
   labs(title = "Price boxplots by neighbourhood group",
        subtitle = "Barcelona",
        x = "Neighbourhood group",
@@ -783,6 +789,15 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
 
+```
+
+The previous plot could be summarized in the above boxplot, which locates the quartiles and medians for the `price` variable in each neighbourhood group. As an example, the following are the medians from the neighbourhood groups mentioned in the previous plot, which represent the lowest and highest extremes in all 10:
+
+```{r plot12.1, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+median(Barcelona_md$price[Barcelona_md$neighbourhood_group == "Ciutat Vella"], na.rm = TRUE)
+median(Barcelona_md$price[Barcelona_md$neighbourhood_group == "Eixample"], na.rm = TRUE)
+median(Barcelona_md$price[Barcelona_md$neighbourhood_group == "Nou Barris"], na.rm = TRUE)
+median(Barcelona_md$price[Barcelona_md$neighbourhood_group == "Sant Andreu"], na.rm = TRUE)
 ```
 
 ---
