@@ -659,8 +659,6 @@ ggplot(listings_per_host, aes(x = count_grouped)) +
   theme(axis.text.x = element_text()) +
   theme_minimal()
 
-# 10+ is WRONG!
-
 ```
 
 The above plot illustrates another defining observation, by sorting all Airbnb hosts according to the number of listings they have registered on the platform. Represented in the variable `Number of hosts`, out of a total of 7,015 hosts, an overwhelming majority is responsible for only one listing, with a quick decrease in number as the `Listing count` increases
@@ -674,7 +672,7 @@ It becomes obvious that the market is overwhelmingly populated by 1-property hos
 ```{r plot9, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=4, fig.align='center'}
 
 top_hosts <- Barcelona_md %>%
-  distinct(host_name, .keep_all = TRUE) %>%
+  distinct(host_id, .keep_all = TRUE) %>%
   arrange(desc(calculated_host_listings_count)) %>%
   slice_head(n = 5)
 
@@ -696,6 +694,7 @@ ggplot(top_hosts, aes(x = reorder(host_name, calculated_host_listings_count),
   theme(axis.text.x = element_text(angle = 0, hjust = 1))
 
 ```
+To provide further insight into the host number and listing count disparity, by querying through unique items of `host_id`, and sorting based on `calculated_host_listings_count` we can obtain the 5 top hosts by number of listings. A brief look at the graph reveals that each of the five entities is accountable for a significantly greater number of properties than what is deemed as characteristic of large tenants according to the law. Also, the assumption could be made that the names reflect that such hosts are not actual individual human users of the platform, but rather companies or trusts, which operate large touristic housing rental businesses across Barcelona.
 
 ---
 
@@ -748,9 +747,27 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
 
 ---
 
-#### 2.3.12. Listings by minimum nights
+#### 2.3.12. Price boxplots by neighbourhood group
 
 ```{r plot12, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
+
+ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
+  geom_boxplot(fill = "#c77cff", alpha = 0.4, outlier.color = "#c77cff", color = "#c77cff") +
+  scale_y_log10() +
+  labs(title = "Price boxplots by neighbourhood group",
+       subtitle = "Barcelona",
+       x = "Neighbourhood group",
+       y = "Price (€)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
+
+```
+
+---
+
+#### 2.3.13. Listings by minimum nights
+
+```{r plot13, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
 
 # Modify the minimum_nights column to create a '35+' category
 Barcelona_md$minimum_nights_grouped <- ifelse(Barcelona_md$minimum_nights > 35, 
@@ -773,24 +790,6 @@ ggplot(Barcelona_md, aes(x = minimum_nights_grouped)) +
   theme(axis.text.x = element_text(angle = 0,
                                    vjust = 0.5, 
                                    hjust = 1))
-
-```
-
----
-
-#### 2.3.13. Price boxplots by neighbourhood group
-
-```{r plot13, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
-
-ggplot(Barcelona_md, aes(x = neighbourhood_group, y = price)) +
-  geom_boxplot(fill = "#c77cff", alpha = 0.4, outlier.color = "#c77cff", color = "#c77cff") +
-  scale_y_log10() +
-  labs(title = "Price boxplots by neighbourhood group",
-       subtitle = "Barcelona",
-       x = "Neighbourhood group",
-       y = "Price (€)") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
 
 ```
 
