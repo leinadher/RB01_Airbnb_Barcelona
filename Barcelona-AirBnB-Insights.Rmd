@@ -830,6 +830,10 @@ ggplot(Barcelona_md, aes(x = minimum_nights_grouped)) +
 
 ```
 
+This chart examines the distribution of listing counts based on the minimum nights required, aiming to illustrate this variable throughout the entire dataset. An initial observation can be made that the majority of listings require a minimum reservation of one night, followed by a rapid decline in frequency until reaching a full week. Further on, a significant upsurge in listings happens around the 30-day mark, indicating that a substantial cluster of listings entail a minimum stay of around a month.
+
+Such findings lend support to the argument that Airbnb serves as a portal for an increasingly diverse range of rental types, extending beyond the original notion of short-term single-room leases, which were the original hallmark of the platform.
+
 ---
 
 #### 2.3.14. Minimum nights boxplots by neighbourhood group
