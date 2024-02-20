@@ -3,8 +3,8 @@ title: "Barcelona Airbnb Insights"
 author: "Daniel Herrera & Rodrigo González"
 date: "2024-02-10"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -840,27 +840,9 @@ Such findings lend support to the argument that Airbnb serves as a portal for an
 
 ---
 
-#### 2.3.14. Minimum nights boxplots by neighbourhood group
+#### 2.3.14. Reviews boxplots by neighbourhood group
 
 ```{r plot14, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
-
-ggplot(Barcelona_md, aes(x = neighbourhood_group, y = minimum_nights)) +
-  geom_boxplot(fill = "#7cae00", alpha = 0.4, outlier.color = "#7cae00", color = "#7cae00") +
-  scale_y_log10() + # Otherwise boxplot conveys no information
-  labs(title = "Minimum nights boxplots by neighbourhood group",
-       subtitle = "Barcelona",
-       x = "Neighbourhood group",
-       y = "Minimum nights") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
-
-```
-
----
-
-#### 2.3.15. Reviews boxplots by neighbourhood group
-
-```{r plot15, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
 
 ggplot(Barcelona_md, aes(x = neighbourhood_group, y = number_of_reviews)) +
   geom_boxplot(fill = "#00bfc4", alpha = 0.4, outlier.color = "#00bfc4", color = "#00bfc4") +
@@ -874,11 +856,13 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group, y = number_of_reviews)) +
 
 ```
 
+This set of boxplots looks at the distribution of number of reviews listings receive, grouped by neighbourhood groups. Although not as rich in information as other plots from the report, it does reflect certain trends which have been observed in other visualizations. Assuming that the number of reviews is a reflection of the level of activity it has received, once again the chart is dominated by the most popular neighbourhoods of *Eixample*, *Gràcia*, *Sant Martí* and *Sants-Montjuïc*. An exception to this observation is *Ciutat Vella*, which is shown to have a narrow boxplot, reflecting a smaller number of reviews. This may be do to the listings having a shorter lifespan, and not having been able to accumulate as many reviews, perhaps due to a more dynamic Airbnb market in that concetrated area. This statement would however have to be proven through other analyses.
+
 ---
 
-#### 2.3.16. Correlation of numerical values
+#### 2.3.15. Correlation of numerical values
 
-``` {r plot16, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=8, fig.align='center'}
+``` {r plot15, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=8, fig.height=8, fig.align='center'}
 
 numeric_data <- Barcelona_md[, sapply(Barcelona_md, is.numeric)]
 numeric_data <- numeric_data[, !colnames(numeric_data) %in% c('host_id',
@@ -908,11 +892,13 @@ ggplot(cor_df, aes(Var1, Var2)) +
 
 ```
 
+The above plot reflects the correlation of all numerical variables in the data set. A positive correlation is an indicator of a 'more is more' relationship between them, evaluated from 0 to 1. The interesting observation though is the fact that there are relatively low correlations between most variables. The single exception is the straightforward correlation between `reviews_per_month` and `number_of_reviews`, which is somewhat higher than 0.50. There are also variables shown to have no correlation at all, such as `star_rating` and `calculated_host_listings_count`, which seems also to be quite a reasonable conclusion.
+
 ---
 
-#### 2.3.17. Price by star rating
+#### 2.3.16. Price by star rating
 
-```{r plot17, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
+```{r plot16, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide', fig.keep='all', fig.width=10, fig.height=5, fig.align='center'}
 
 ggplot(Barcelona_md, aes(x = star_rating, y = price)) +
   geom_point(width = 0.1,
@@ -924,6 +910,14 @@ ggplot(Barcelona_md, aes(x = star_rating, y = price)) +
        y = "Price (€)") +
   theme_minimal()
 
+```
+
+The last plot examines the behaviour of the price of all listings, plotted as scattered points, in relation to the star rating, to explore possible correlations between the two. A general trend can be observed, that most listings tend to have high ratings, ranging from 2 to 5, forming a large cluster between the 4 and 5 marks. Also, the higher-priced listings are seen to be associated with higher star reviews. Outliers with nightly rates above €5000 are seen, skewing the perception of the overall trends of the main cluster.
+
+The red line represents a linear regression model based on the two observations, which shows a positive linear increase in the price that is explained by the star rating. However, this causality cannot be proven only through this model. The linear model shows an intercept of 29.13, and a positive slope of 20.13 for the star_rating variable, indicating that for each increase star rating (1 star), the price would theoretically increase €20.13.
+
+```{r plot16.1, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+lm(price ~ star_rating, data = Barcelona_md)
 ```
 
 ---
