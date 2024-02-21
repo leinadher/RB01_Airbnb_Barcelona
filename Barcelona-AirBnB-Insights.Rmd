@@ -912,7 +912,7 @@ ggplot(Barcelona_md, aes(x = star_rating, y = price)) +
 
 ```
 
-The last plot examines the behaviour of the price of all listings, plotted as scattered points, in relation to the star rating, to explore possible correlations between the two. A general trend can be observed, that most listings tend to have high ratings, ranging from 2 to 5, forming a large cluster between the 4 and 5 marks. Also, the higher-priced listings are seen to be associated with higher star reviews. Outliers with nightly rates above €5000 are seen, skewing the perception of the overall trends of the main cluster.
+The last plot examines the behaviour of the `price` of all listings, plotted as scattered points, in relation to the `star_rating`, to explore possible correlations between the two. A general trend can be observed, that most listings tend to have high ratings, ranging from 2 to 5, forming a large cluster between the 4 and 5 marks. Also, the higher-priced listings are seen to be associated with higher star reviews. Outliers with nightly rates above €5000 are seen, skewing the perception of the overall trends of the main cluster.
 
 The red line represents a linear regression model based on the two observations, which shows a positive linear increase in the price that is explained by the star rating. However, this causality cannot be proven only through this model. The linear model shows an intercept of 29.13, and a positive slope of 20.13 for the star_rating variable, indicating that for each increase star rating (1 star), the price would theoretically increase €20.13.
 
@@ -928,7 +928,7 @@ An additional segment of the project worthy of mention are the alternative workf
 
 One notable case was opur strategy for accessing the Open Data BCN demographics data set, which relied on the Barcelona City Council's API. We opted for this path with the sole purpose of exploring alternative data loading workflows, despite the straightforward alternative of downloading and loading the `2023_pad_mdbas_sexe.csv` file from the website being more easily available.
 
-Among other libraries that weren't covered during the Bootcamp, we incorporated the `gridExtra` library to manipulate the `ggplot2` layout, allowing for efficient division and arrangement of layouts to optimize visualization.
+Among other libraries that weren not covered during the Bootcamp, we incorporated the `gridExtra` library to manipulate the `ggplot2` layout, allowing for efficient division and arrangement of layouts to optimize visualization.
 
 For the 'Average price by neighbourhood' plot (number 10), the package `ggrepel` was tested and loaded in order to position the labels for the neighbourhood polygons in such a way that they could be easily readable.
 
@@ -940,7 +940,9 @@ As a secondary additional chapter of the project we opted for a GitHub-based wor
 
 ## 4. Conclusion
 
-WRITE A CONCLUSION!
+The present study has been an great opportunity to get to know a project aimed at enhancing transparency within a company recognized for its limited data openness, as well as to explore data sets and workflows from official Open Data sources. Airbnb is in itself an interesting topic and controversial subject matter, as it has had a notable impact on the short-term rental and holiday accommodation sector across the world. The choice of Barcelona as the focal point is rooted in its reputation as a distinctive case study showcasing the influence of Airbnb on heavily frequented tourist destinations. Exploring this context is essential to achieving an understanding of the challenges posed by the platform. Furthermore, aligning the findings and statistical indicators with local laws and regulations has helped add a qualitative dimension to the assessment.
+
+Our concise analysis reveals immediate concerns regarding the compliance of listings with legal requirements and highlights the emergence of a monopolistic market in the city. It also reflects economic and demographic discrepancies within the city, which could help lend support to studies in other knowledge areas. The observed levels of habitational stress in Barcelona, attributed in part to the phenomenon of 'overtourism' and a global housing crisis, are discernible within the Airbnb data. The dataset chosen for this project not only serves as a practical application of R code but also proves to be a source of rich and insightful information extending beyond a mere coding exercise.
 
 ---
 
