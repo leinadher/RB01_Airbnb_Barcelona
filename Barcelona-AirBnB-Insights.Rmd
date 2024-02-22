@@ -415,7 +415,7 @@ ggplot(listings_count, aes(x = reorder(neighbourhood_group,
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
   labs(x = "Neihgbourhood group",
-       y = "Number of listings",
+       y = "",
        title = "Airbnb listings by neighbourhood group",
        subtitle = "Barcelona") +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) +
@@ -490,7 +490,7 @@ ggplot(property_counts,
             hjust = 0, 
             size = 3) +
   labs(x = "", 
-       y = "Count", 
+       y = "", 
        title = "Room type count",
        subtitle = "Barcelona") +
   coord_flip() + # Flip the plot to horizontal bars
@@ -520,7 +520,7 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group)) +
   labs(title = "Acommodation type by neighbourhood group",
        subtitle = "Barcelona",
        x = "Neighbourhood group",
-       y = "Count") +
+       y = "") +
     theme_minimal() +
   theme(axis.text.x = element_text(size = 8, angle = 45, hjust = 1))
 
@@ -557,7 +557,7 @@ ggplot(license_count,
            fill = 'red')) +
   geom_bar(stat = "identity") +
   labs(x = "",
-       y = "Count", 
+       y = "", 
        title = "License status",
        subtitle = "Barcelona") +
   geom_text(aes(label = quantity), 
@@ -587,7 +587,7 @@ plotA <- ggplot(tenant_count,
            fill = "red")) +
   geom_bar(stat = "identity") +
   labs(x = "",
-       y = "Host count", 
+       y = "", 
        title = "Large vs. small tenants - Host count",
        subtitle = "Barcelona") +
   geom_text(aes(label = listing_count), 
@@ -610,7 +610,7 @@ plotB <- ggplot(tenant_count,
            fill = 'red')) +
   geom_bar(stat = "identity") +
   labs(x = "",
-       y = "Listing Count", 
+       y = "", 
        title = "Large vs. small tenants - Listing count",
        subtitle = "Barcelona") +
   geom_text(aes(label = quantity),
@@ -656,7 +656,7 @@ listings_per_host$count_grouped <- factor(listings_per_host$count_grouped,
 # Create the histogram
 ggplot(listings_per_host, aes(x = count_grouped)) +
   geom_bar(fill = "#f1796f") +
-  labs(x = "Listing count",
+  labs(x = "",
        y = "Number of hosts",
        title = "Number of hosts per listing count",
        subtitle = "Barcelona") +
@@ -692,7 +692,7 @@ ggplot(top_hosts, aes(x = reorder(host_name, calculated_host_listings_count),
   labs(title = "Top 5 hosts by number of listings",
        subtitle = "Barcelona",
        x = "",
-       y = "Listing count") +
+       y = "") +
   coord_flip() + # Flip the plot to horizontal bars
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 0, hjust = 1))
@@ -824,7 +824,7 @@ Barcelona_md$minimum_nights_grouped <- factor(Barcelona_md$minimum_nights_groupe
 ggplot(Barcelona_md, aes(x = minimum_nights_grouped)) +
   geom_bar(fill = "#f1796f") +
   labs(x = "Minimum nights",
-       y = "Count",
+       y = "",
        title = "Listings by minimum nights",
        subtitle = "Barcelona") +
   theme_minimal() +
@@ -850,7 +850,7 @@ ggplot(Barcelona_md, aes(x = neighbourhood_group, y = number_of_reviews)) +
   labs(title = "Reviews boxplots by neighbourhood group",
        subtitle = "Barcelona",
        x = "Neighbourhood group",
-       y = "Review count") +
+       y = "") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
 
