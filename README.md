@@ -10,8 +10,6 @@
 
 The project is an observational study of Airbnb data from the city of Barcelona, aimed at extracting insights and drawing conclusions within the context of the city's increasingly saturated tourism industry and strained housing market. Our data-driven approach is complemented by an analysis of local policies and the latest information from Spanish media on the subject, ensuring a comprehensive perspective. The project has been developed using a GitHub repository to facilitate collaboration across multiple devices and to ensure reproducibility of the results.
 
----
-
 ## 2. Repository structure:
 
 - 📁 'Data': contains the data sources used for analysis.
@@ -19,8 +17,6 @@ The project is an observational study of Airbnb data from the city of Barcelona,
 - 📄 'Barcelona-AirBnB-Insights.Rmd': the main RMarkdown file for the report.
 - 📄 'Barcelona-AirBnB-Insights.html': the exported RMarkdown report.
 - 📁 'Barcelona-AirBnB-Insights_cache': caches some of the plots (especially maps) to speed up the knitting process.
-
----
 
 ## 3. Additional notes
 
