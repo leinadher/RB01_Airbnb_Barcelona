@@ -1,5 +1,7 @@
 # Barcelona Airbnb Insights
+
 **Author:** Daniel Herrera & Rodrigo González
+
 **Date:** 22/02/2024
 
 ---
