@@ -25,4 +25,4 @@ The project is an observational study of Airbnb data from the city of Barcelona,
 
 - 📂 Working Directory: The R working directory (wd) is configured to be the directory of the file itself, ensuring it looks for the data sets there.
 - 🔄 Automatic Data Import: The R code automatically creates data frames assigned to variables from the contents of the 'Data' folder, as long as they include the `listings.csv` file. This import workflow was initially designed for a project covering multiple cities' data.
-- 🌐 API Import: The second data set, imported via API, can be found in 'Data/2023_pad_mdbas_sexe.csv' as an alternative import source.
+- 🌐 API Import: The second data set, imported via API, can be found in `2023_pad_mdbas_sexe.csv` in the 'Data' folder as an alternative import source.
