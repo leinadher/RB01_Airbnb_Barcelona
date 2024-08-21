@@ -12,8 +12,9 @@ The project is an observational study of Airbnb data from the city of Barcelona,
 
 ## 2. Repository structure:
 
-- 📁 'Data': contains the data sources used for analysis.
+- 📁 'Archive': contains older versions of the code, as well as drafts for R expressions.
 - 📁 'Assets': holds images embedded in the RMarkdown report.
+- 📁 'Data': contains the data sources used for analysis.
 - 📁 'Barcelona-AirBnB-Insights_cache': caches some of the plots (especially maps) to speed up the knitting process.
 - 📄 `Barcelona-AirBnB-Insights.Rmd`: the main RMarkdown file for the report.
 - 📄 `Barcelona-AirBnB-Insights.html`: the exported RMarkdown report.
