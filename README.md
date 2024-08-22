@@ -1,25 +1,22 @@
 # Barcelona Airbnb Insights
+## Data scraping and analysis of largest Swiss phone resellers
+**Authors:** Daniel Herrera, Ramon Burkhard & Jack Brown
 
-**Authors:** Daniel Herrera & Rodrigo González
-
-**Date:** 22/02/2024
+**Date:** 13/05/2024
 
 ---
 
 ## 1. Project Overview
 
-The project is an observational study of Airbnb data from the city of Barcelona, aimed at extracting insights and drawing conclusions within the context of the city's increasingly saturated tourism industry and strained housing market. Our data-driven approach is complemented by an analysis of local policies and the latest information from Spanish media on the subject, ensuring a comprehensive perspective. The project has been developed using a GitHub repository to facilitate collaboration across multiple devices and to ensure reproducibility of the results.
+The project involves full Extraction-Transform-Load (ETL) process, from the retrieval of the raw data via web scraping from 3 different Swiss electronics resellers to the analysis and reporting of the transformed and stored data. Because it is a group effort, data from the three resellers has been transformed to follow a group-agreed standardization and structure, prior to loading onto the final database. The three sources are **Galaxus**, **Interdiscount** and **MediaMarkt**.
+
+As the repository is maintained by myself, I have only included my own segment of the code, corresponding to the **Interdiscount** online store, as well as the final assembled dataset and exploratory data analysis in a Jupyter Notebook.
 
 ## 2. Repository structure:
 
-- 📁 'Archive': contains older versions of the code, as well as drafts for R expressions.
-- 📁 'Assets': holds images embedded in the RMarkdown report.
-- 📁 'Barcelona-AirBnB-Insights_cache': caches some of the plots (especially maps) to speed up the knitting process.
-- 📁 'Barcelona-AirBnB-Insights_files': contains files relevant to the RMarkdown script.
-- 📁 'Data': contains the data sources used for analysis.
-- 📄 `Barcelona-AirBnB-Insights.html`: the exported RMarkdown report.
-- 📄 `Barcelona-AirBnB-Insights.pdf`: the exported RMarkdown report.
-- 📄 `Barcelona-AirBnB-Insights.Rmd`: the main RMarkdown file for the report.
+- 📁 'exploration': Contains the assembled dataset as well as the EDA report under `ExploratoryDataAnalysis.ipynb`.
+- 📁 'ETL_interdiscount': Contains the ETL sequence split into its phases for the reseller Interdiscount.
+- 📄 `README.md`: This readme file.
 
 ## 3. Additional notes
 
