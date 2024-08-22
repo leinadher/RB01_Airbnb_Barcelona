@@ -1,4 +1,4 @@
-# Barcelona Airbnb Insights
+# 🏙️ Barcelona Airbnb Insights
 
 **Authors:** Daniel Herrera & Rodrigo González
 
