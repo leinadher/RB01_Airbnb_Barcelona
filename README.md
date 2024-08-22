@@ -17,8 +17,8 @@ The project is an observational study of Airbnb data from the city of Barcelona,
 - 📁 'Barcelona-AirBnB-Insights_cache': Caches some of the plots (especially maps) to speed up the knitting process.
 - 📁 'Barcelona-AirBnB-Insights_files': Contains files relevant to the RMarkdown script.
 - 📁 'Data': Contains the data sources used for analysis.
-- 📄 `Barcelona-AirBnB-Insights.html`: The exported RMarkdown report.
-- 📄 `Barcelona-AirBnB-Insights.pdf`: The exported RMarkdown report.
+- 📄 `Barcelona-AirBnB-Insights.html`: The exported report in HTML.
+- 📄 `Barcelona-AirBnB-Insights.pdf`: The exported report in PDF.
 - 📄 `Barcelona-AirBnB-Insights.Rmd`: The main RMarkdown file for the report.
 - 📄 `README.md`: This file, providing an overview of the project.
 
