@@ -1,29 +1,29 @@
-Barcelona Airbnb Insights
-Daniel Herrera & Rodrigo González
-22.02.2024
+# 🏙️ Barcelona Airbnb Insights
+
+**Authors:** Daniel Herrera & Rodrigo González
+
+**Date:** 22/02/2024
 
 ---
 
-The project has been developed on a GitHub repository, to allow working from different devices and to ensure reproducibility. The URL to the repository is:
+## 1. Project Overview
 
-https://github.com/leinadher/RB01_AirBnB_TwoCities
+The project is an observational study of Airbnb data from the city of Barcelona, aimed at extracting insights and drawing conclusions within the context of the city's increasingly saturated tourism industry and strained housing market. Our data-driven approach is complemented by an analysis of local policies and the latest information from Spanish media on the subject, ensuring a comprehensive perspective. The project has been developed using a GitHub repository to facilitate collaboration across multiple devices and to ensure reproducibility of the results.
 
-NOTE: The visibility of the repository is set to private at the time of writing this readme file.
+## 2. Repository structure:
 
----
+- 📁 'Archive': Contains older versions of the code, as well as drafts for R expressions.
+- 📁 'Assets': Holds images embedded in the RMarkdown report.
+- 📁 'Barcelona-AirBnB-Insights_cache': Caches some of the plots (especially maps) to speed up the knitting process.
+- 📁 'Barcelona-AirBnB-Insights_files': Contains files relevant to the RMarkdown script.
+- 📁 'Data': Contains the data sources used for analysis.
+- 📄 `Barcelona-AirBnB-Insights.html`: The exported report in HTML.
+- 📄 `Barcelona-AirBnB-Insights.pdf`: The exported report in PDF.
+- 📄 `Barcelona-AirBnB-Insights.Rmd`: The main RMarkdown file for the report.
+- 📄 `README.md`: This file, providing an overview of the project.
 
-#### Repository structure:
+## 3. Additional notes
 
-- The data sources are stored in the 'Data' folder.
-- Images embedded in the RMarkdown report can be located in the 'Assets' folder.
-- The RMarkdown file can be found in 'Barcelona-AirBnB-Insights.Rmd'.
-- The exported RMarkdown report is 'Barcelona-AirBnB-Insights.html'.
-- To speed up the knitting of the report, some of the plots (specifically the maps) have been cached in 'Barcelona-AirBnB-Insights_cache'.
-
----
-
-#### Additional notes:
-
-- The R working directory (wd) is configured to be the directory of the file itself, and will look for the data sets there.
-- The R code automatically creates data frames assigned to variables from the contents of 'Data', as long as they contain 'listings.csv' file. This import workflow was defined when the project aimed at covering more than one city's data.
-- The second data set, imported via API, can be found in 'Data/2023_pad_mdbas_sexe.csv', as an alternative import source.
+- 📂 Working Directory: The R working directory (wd) is configured to be the directory of the file itself, ensuring it looks for the data sets there.
+- 🔄 Automatic Data Import: The R code automatically creates data frames assigned to variables from the contents of the 'Data' folder, as long as they include the `listings.csv` file. This import workflow was initially designed for a project covering multiple cities' data.
+- 🌐 API Import: The second data set, imported via API, can be found in `2023_pad_mdbas_sexe.csv` in the 'Data' folder as an alternative import source.
